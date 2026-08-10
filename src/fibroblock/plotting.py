@@ -229,6 +229,52 @@ def shade_gap(
     )
 
 
+def set_log_ticks(
+    ax: plt.Axes,
+    values: np.ndarray,
+    axis: str = "x",
+    fmt: str = "{:g}",
+) -> None:
+    """Put explicit, readable ticks on a logarithmic axis.
+
+    Parameters
+    ----------
+    ax : Axes
+        Axes to adjust.
+    values : ndarray
+        The data values to place ticks at.
+    axis : {"x", "y"}, optional
+        Which axis. Default ``"x"``.
+    fmt : str, optional
+        Format string applied to each value.
+
+    Raises
+    ------
+    ValueError
+        If ``axis`` is not ``"x"`` or ``"y"``.
+
+    Notes
+    -----
+    Matplotlib's default log locator labels minor ticks whenever the axis spans
+    less than about one decade per major tick. Over a range like
+    ``2e-4`` to ``4e-3`` that produces labels at 2, 3, 4 and 6 times each
+    decade, which overlap into an unreadable smear. Placing one tick per
+    plotted value and turning the minor labels off fixes it, and has the useful
+    side effect of showing the reader exactly where the samples are.
+    """
+    if axis not in ("x", "y"):
+        raise ValueError(f"axis must be 'x' or 'y', got {axis!r}")
+
+    ticks = np.unique(np.asarray(values, dtype=float))
+    labels = [fmt.format(value) for value in ticks]
+
+    target = ax.xaxis if axis == "x" else ax.yaxis
+    target.set_major_locator(matplotlib.ticker.FixedLocator(ticks))
+    target.set_major_formatter(matplotlib.ticker.FixedFormatter(labels))
+    # Minor ticks stay as grid marks but lose their labels.
+    target.set_minor_formatter(matplotlib.ticker.NullFormatter())
+
+
 def annotate_takeaway(ax: plt.Axes, text: str, loc: str = "upper left") -> None:
     """Place a short takeaway note inside the axes.
 

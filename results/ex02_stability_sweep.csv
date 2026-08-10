@@ -1,0 +1,6 @@
+dt_over_limit,dt_ms,diverged,divergence_time_ms,checkerboard_growth_factor
+0.800,0.037209,False,nan,1.028816e+00
+0.950,0.044186,False,nan,1.028367e+00
+1.020,0.047442,False,nan,1.027736e+00
+1.050,0.048837,False,nan,2.879928e+01
+1.100,0.051163,True,7.367442,1.179533e+14

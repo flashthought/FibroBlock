@@ -192,6 +192,64 @@ def measure_velocity(result: SimulationResult) -> VelocityFit:
     )
 
 
+def recovery_at_front(
+    result: SimulationResult, probe_x_cm: float, threshold_V: float
+) -> float:
+    """Recovery variable ``w`` at the instant the upstroke passes a threshold.
+
+    Parameters
+    ----------
+    result : SimulationResult
+        A finished simulation with stored snapshots.
+    probe_x_cm : float
+        Position at which to sample. cm. Should lie inside the
+        steady-propagation window.
+    threshold_V : float
+        Potential at which to read ``w`` off -- normally the frozen-``w``
+        threshold root ``V2``.
+
+    Returns
+    -------
+    float
+        The value of ``w`` when ``V`` first rises through ``threshold_V`` at
+        that node. NaN if it never does.
+
+    Notes
+    -----
+    This is the measurement behind the report's explanation of why the observed
+    conduction velocity sits below the analytic prediction. The analytic front
+    speed freezes ``w`` at its *resting* value ``w*``; in the real solution
+    ``w`` has already risen somewhat by the time the front arrives, which lifts
+    the threshold root towards rest and slows the front.
+
+    The value is linearly interpolated between the two snapshots that straddle
+    the crossing, so its resolution is not limited to the snapshot cadence.
+    Reading ``w`` at the ``V2`` crossing specifically -- rather than at the peak
+    or the foot -- is the right choice because ``V2`` is the root whose position
+    controls the speed.
+    """
+    node = int(np.argmin(np.abs(result.x - probe_x_cm)))
+
+    V_trace = result.V_snapshots[:, node]
+    w_trace = result.w_snapshots[:, node]
+
+    above = V_trace >= threshold_V
+    if not np.any(above) or above[0]:
+        # Either the wave never arrived, or the node was already above the
+        # threshold at t = 0, in which case there is no upstroke to sample.
+        return float("nan")
+
+    index = int(np.argmax(above))
+    V_before, V_after = V_trace[index - 1], V_trace[index]
+    w_before, w_after = w_trace[index - 1], w_trace[index]
+
+    if V_after == V_before:
+        return float(w_after)
+
+    fraction = (threshold_V - V_before) / (V_after - V_before)
+    return float(w_before + fraction * (w_after - w_before))
+
+
 # ---------------------------------------------------------------------------
 # Conduction block
 # ---------------------------------------------------------------------------

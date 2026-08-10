@@ -358,6 +358,83 @@ def excitability(params: FHNParams) -> ExcitabilitySummary:
 # ---------------------------------------------------------------------------
 
 
+def bistable_roots_at(w_frozen: float) -> tuple[float, float, float]:
+    """Roots of the frozen-``w`` cubic for an arbitrary frozen recovery value.
+
+    .. math:: V^{3} - 3V + 3w = 0
+
+    Parameters
+    ----------
+    w_frozen : float
+        Value at which the recovery variable is held. Dimensionless.
+
+    Returns
+    -------
+    V1, V2, V3 : float
+        The three real roots in ascending order.
+
+    Raises
+    ------
+    RuntimeError
+        If the cubic does not have three distinct real roots, meaning that at
+        this recovery level the medium is no longer bistable and no travelling
+        front exists. This is not a numerical failure -- it is the condition
+        under which propagation is impossible.
+
+    Notes
+    -----
+    Generalises :func:`bistable_roots`, which is this function evaluated at
+    ``w = w*``. It is separated out so that the *measured* recovery level at
+    the wavefront can be substituted, which is what ``ex05`` uses to explain
+    why the measured conduction velocity falls below the resting-``w``
+    prediction.
+
+    Bistability is lost when the discriminant vanishes, at ``|w| = 2``: beyond
+    that the cubic has a single real root and there is nothing for a front to
+    connect.
+    """
+    # The -3 and +3 come from multiplying f = V - V^3/3 - w by -3.
+    coefficients = np.array([1.0, 0.0, -3.0, 3.0 * w_frozen])
+    all_roots = np.roots(coefficients)
+
+    real_roots = np.sort(all_roots[np.abs(all_roots.imag) < 1e-9].real)
+    if real_roots.size != 3:
+        raise RuntimeError(
+            f"Frozen-w cubic is not bistable at w = {w_frozen}: expected 3 real "
+            f"roots, got {real_roots.size}. Bistability requires |w| < 2."
+        )
+
+    return float(real_roots[0]), float(real_roots[1]), float(real_roots[2])
+
+
+def front_speed_prefactor_at(w_frozen: float) -> float:
+    """Front-speed prefactor for an arbitrary frozen recovery value.
+
+    .. math:: \\frac{\\theta}{\\sqrt{D}}
+              = \\sqrt{\\tfrac{A}{2}}\\,(V_1 - 2V_2 + V_3), \\qquad A = \\tfrac13
+
+    Parameters
+    ----------
+    w_frozen : float
+        Value at which the recovery variable is held. Dimensionless.
+
+    Returns
+    -------
+    float
+        The prefactor ``theta / sqrt(D)``, in 1/sqrt(ms).
+
+    Notes
+    -----
+    As ``w`` rises above ``w*`` the threshold root ``V2`` moves towards rest,
+    the factor ``V1 - 2V2 + V3 = -3 V2`` shrinks, and the front slows. This
+    single expression therefore captures the whole mechanism of conduction
+    slowing and, in the limit, block: enough recovery, and the medium stops
+    being bistable at all.
+    """
+    V1, V2, V3 = bistable_roots_at(w_frozen)
+    return float(np.sqrt(CUBIC_COEFFICIENT / 2.0) * (V1 - 2.0 * V2 + V3))
+
+
 def bistable_roots(params: FHNParams) -> tuple[float, float, float]:
     """Roots of the frozen-``w`` cubic that governs the fast upstroke.
 
@@ -396,21 +473,7 @@ def bistable_roots(params: FHNParams) -> tuple[float, float, float]:
     The cubic has no quadratic term, so ``V1 + V2 + V3 = 0``.
     """
     _, w_rest = rest_state(params)
-
-    # Coefficients of V^3 + 0*V^2 - 3*V + 3*w_rest, in descending powers.
-    # The -3 and +3 come from multiplying f = V - V^3/3 - w* by -3.
-    coefficients = np.array([1.0, 0.0, -3.0, 3.0 * w_rest])
-    all_roots = np.roots(coefficients)
-
-    real_roots = np.sort(all_roots[np.abs(all_roots.imag) < 1e-9].real)
-    if real_roots.size != 3:
-        raise RuntimeError(
-            f"Frozen-w cubic is not bistable for parameters {params!r}: "
-            f"expected 3 real roots, got {real_roots.size} "
-            f"(all roots were {all_roots})."
-        )
-
-    return float(real_roots[0]), float(real_roots[1]), float(real_roots[2])
+    return bistable_roots_at(w_rest)
 
 
 def analytic_cv_prefactor(params: FHNParams) -> float:
@@ -454,15 +517,12 @@ def analytic_cv_prefactor(params: FHNParams) -> float:
     Keener, J., Sneyd, J. (2009). *Mathematical Physiology I: Cellular
     Physiology*, 2nd edn, Springer. Section 6.2 (bistable front speed).
     """
-    V1, V2, V3 = bistable_roots(params)
-
-    # A is the cubic coefficient of f; the factored and expanded forms agree
-    # only for this value, so it is derived, not chosen.
-    A = CUBIC_COEFFICIENT
-
-    # The exact 2 below is from the standard bistable-front result
-    # theta = sqrt(A/2) * (V1 - 2 V2 + V3) * sqrt(D).
-    return float(np.sqrt(A / 2.0) * (V1 - 2.0 * V2 + V3))
+    _, w_rest = rest_state(params)
+    # A = CUBIC_COEFFICIENT is the cubic coefficient of f; the factored and
+    # expanded forms agree only for that value, so it is derived, not chosen.
+    # The evaluation itself is delegated to front_speed_prefactor_at so that
+    # there is exactly one implementation of the formula.
+    return front_speed_prefactor_at(w_rest)
 
 
 def analytic_cv(D: float, params: FHNParams) -> float:

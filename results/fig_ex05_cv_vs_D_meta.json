@@ -1,0 +1,126 @@
+{
+  "figure": "fig_ex05_cv_vs_D",
+  "caption": "Conduction velocity scales as the square root of the diffusion coefficient over a twenty-fold range: the log-log slope is 0.5000 against a predicted 0.5, and the sharper theta/sqrt(D) test is flat to 0.02 % once the grid is scaled to hold front resolution constant (versus 1.92 % on a fixed grid). The measured prefactor 0.8074 sits 16 % below the analytic 0.9630 because that derivation freezes w at rest; substituting the recovery level actually measured at the front, w = -0.5906, closes most of the gap to 7 %.",
+  "files": {
+    "png": "E:\\FibroBlock\\figures\\fig_ex05_cv_vs_D.png",
+    "pdf": "E:\\FibroBlock\\figures\\fig_ex05_cv_vs_D.pdf"
+  },
+  "generated_utc": "2026-08-10T19:10:42Z",
+  "git_commit": "6019110817dc11cb0873ab773f58994ff8400697-dirty",
+  "libraries": {
+    "fibroblock": "1.0.0",
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.1"
+  },
+  "platform": {
+    "system": "Windows",
+    "release": "10",
+    "version": "10.0.26200",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD"
+  },
+  "config": {
+    "fhn": {
+      "a": 0.7,
+      "b": 0.8,
+      "eps": 0.08,
+      "time_unit_ms": 1.0
+    },
+    "grid": {
+      "length_cm": 2.0,
+      "dx_cm": 0.01,
+      "baseline_D": 0.001
+    },
+    "gap": {
+      "rho": 1.0,
+      "gap_length_cm": 0.1,
+      "gap_centre_cm": 1.0,
+      "averaging": "harmonic"
+    },
+    "stimulus": {
+      "amplitude": 1.0,
+      "width_cm": 0.1,
+      "duration_ms": 1.0,
+      "start_ms": 0.0
+    },
+    "solver": {
+      "dt_ms": 0.02,
+      "t_end_ms": 300.0,
+      "method": "euler",
+      "f_v_bound": 3.0,
+      "record_every": 25,
+      "store_full_history": false
+    },
+    "measurement": {
+      "activation_rule": "v_zero_crossing",
+      "activation_level": 0.0,
+      "cv_fit_skip_start_cm": 0.5,
+      "cv_fit_skip_end_cm": 0.2,
+      "block_margin_cm": 0.3,
+      "block_window_ms": 200.0
+    },
+    "seed": 20260810,
+    "label": "ex05_cv_vs_D"
+  },
+  "measurements": {
+    "D_values": [
+      0.0002,
+      0.0004,
+      0.0007,
+      0.001,
+      0.0015,
+      0.0025,
+      0.004
+    ],
+    "theta_fixed_grid": [
+      0.011244098094103991,
+      0.016057876462153585,
+      0.021328806138699027,
+      0.02553361536185716,
+      0.0313271197902648,
+      0.040500245330456916,
+      0.05126372832480878
+    ],
+    "theta_scaled_grid": [
+      0.011418894775203648,
+      0.016148728328751957,
+      0.021362866812193147,
+      0.02553361536185716,
+      0.03127185083157476,
+      0.04037058431472032,
+      0.05105919999469792
+    ],
+    "log_log_exponent_fixed": 0.5060474434149913,
+    "log_log_exponent_scaled": 0.4999625920715592,
+    "log_log_r_squared_scaled": 0.999999993767985,
+    "theta_over_sqrtD_spread_fixed": 0.0192006105096578,
+    "theta_over_sqrtD_spread_scaled": 0.00015726308826230018,
+    "measured_prefactor": 0.8074175333841278,
+    "analytic_prefactor_w_rest": 0.9630425785585018,
+    "corrected_prefactor_w_front": 0.86925599888211,
+    "mean_w_at_front": -0.5905696098682507,
+    "w_rest": -0.6242600440550435,
+    "relative_gap_vs_resting_w": -0.16159726333940103,
+    "relative_gap_vs_front_w": -0.07113953263193856,
+    "fixed_width_peak_V": [
+      1.793984911802585,
+      1.794796306264004,
+      1.7951222002304639,
+      1.7952409471252222,
+      1.7942728819188787,
+      1.7934244386905671,
+      -0.2422383376433029
+    ],
+    "scaled_width_peak_V": [
+      1.7939882489728793,
+      1.7947882148384504,
+      1.7951170356358788,
+      1.7952409471252222,
+      1.79427221907567,
+      1.7934248067111391,
+      1.792933741258597
+    ]
+  }
+}

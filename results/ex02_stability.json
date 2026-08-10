@@ -1,0 +1,108 @@
+{
+  "generated_utc": "2026-08-10T18:36:05Z",
+  "git_commit": "6019110817dc11cb0873ab773f58994ff8400697-dirty",
+  "libraries": {
+    "fibroblock": "1.0.0",
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.1"
+  },
+  "platform": {
+    "system": "Windows",
+    "release": "10",
+    "version": "10.0.26200",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD"
+  },
+  "config": {
+    "fhn": {
+      "a": 0.7,
+      "b": 0.8,
+      "eps": 0.08,
+      "time_unit_ms": 1.0
+    },
+    "grid": {
+      "length_cm": 2.0,
+      "dx_cm": 0.01,
+      "baseline_D": 0.001
+    },
+    "gap": {
+      "rho": 1.0,
+      "gap_length_cm": 0.1,
+      "gap_centre_cm": 1.0,
+      "averaging": "harmonic"
+    },
+    "stimulus": {
+      "amplitude": 1.0,
+      "width_cm": 0.1,
+      "duration_ms": 1.0,
+      "start_ms": 0.0
+    },
+    "solver": {
+      "dt_ms": 0.02,
+      "t_end_ms": 300.0,
+      "method": "euler",
+      "f_v_bound": 3.0,
+      "record_every": 25,
+      "store_full_history": false
+    },
+    "measurement": {
+      "activation_rule": "v_zero_crossing",
+      "activation_level": 0.0,
+      "cv_fit_skip_start_cm": 0.5,
+      "cv_fit_skip_end_cm": 0.2,
+      "block_margin_cm": 0.3,
+      "block_window_ms": 200.0
+    },
+    "seed": 20260810,
+    "label": "ex02_stability"
+  },
+  "arrays": {
+    "x_cm": [
+      201
+    ],
+    "stable_snapshot_times_ms": [
+      81
+    ],
+    "stable_V": [
+      81,
+      201
+    ],
+    "unstable_snapshot_times_ms": [
+      317
+    ],
+    "unstable_V": [
+      317,
+      201
+    ],
+    "linear_dt_ms": [
+      25
+    ],
+    "linear_measured_amplification": [
+      25
+    ],
+    "linear_predicted_amplification": [
+      25
+    ]
+  },
+  "measurements": {
+    "diffusion_number_per_ms": 40.0,
+    "f_v_bound": 3.0,
+    "reaction_diffusion_dt_limit_ms": 0.046511627906976744,
+    "pure_diffusion_dt_limit_ms": 0.05,
+    "pure_diffusion_relative_overestimate": 0.07500000000000018,
+    "working_dt_ms": 0.02,
+    "working_safety_factor": 2.3255813953488373,
+    "stable_run_diverged": false,
+    "unstable_run_diverged": true,
+    "unstable_divergence_time_ms": 15.873488372093025,
+    "empirical_boundary_fraction_of_limit": 1.06484375,
+    "empirical_boundary_dt_ms": 0.04952761627906977,
+    "actual_peak_V": 1.6908439600411362,
+    "actual_f_v_from_peak": 1.8589532972075915,
+    "refined_limit_ms": 0.04777950336692771,
+    "refined_limit_fraction": 1.027259322388946,
+    "linear_theory_max_amplification_error": 2.220446049250313e-16
+  }
+}

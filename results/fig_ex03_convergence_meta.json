@@ -1,0 +1,94 @@
+{
+  "figure": "fig_ex03_convergence",
+  "caption": "The scheme achieves its design orders on smooth data: 2.00 in space against the exact diffusion solution (design 2), 1.00 for explicit Euler and 3.95 for RK4 in time (designs 1 and 4). Panel (c) also shows why the stimulus must be excluded from the temporal study: its discontinuous switch-off at 1 ms caps even RK4 at order 1.02, since a jump in the forcing destroys the Taylor expansion higher order depends on. Richardson extrapolation gives a grid-converged velocity of 0.02567 cm/ms, so the default dx = 0.01 cm carries only 0.52 % discretisation error -- the discrepancy against the analytic velocity is therefore physical, not numerical.",
+  "files": {
+    "png": "E:\\FibroBlock\\figures\\fig_ex03_convergence.png",
+    "pdf": "E:\\FibroBlock\\figures\\fig_ex03_convergence.pdf"
+  },
+  "generated_utc": "2026-08-10T19:20:20Z",
+  "git_commit": "6019110817dc11cb0873ab773f58994ff8400697-dirty",
+  "libraries": {
+    "fibroblock": "1.0.0",
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.1"
+  },
+  "platform": {
+    "system": "Windows",
+    "release": "10",
+    "version": "10.0.26200",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD"
+  },
+  "config": {
+    "fhn": {
+      "a": 0.7,
+      "b": 0.8,
+      "eps": 0.08,
+      "time_unit_ms": 1.0
+    },
+    "grid": {
+      "length_cm": 2.0,
+      "dx_cm": 0.01,
+      "baseline_D": 0.001
+    },
+    "gap": {
+      "rho": 1.0,
+      "gap_length_cm": 0.1,
+      "gap_centre_cm": 1.0,
+      "averaging": "harmonic"
+    },
+    "stimulus": {
+      "amplitude": 1.0,
+      "width_cm": 0.1,
+      "duration_ms": 1.0,
+      "start_ms": 0.0
+    },
+    "solver": {
+      "dt_ms": 0.02,
+      "t_end_ms": 300.0,
+      "method": "euler",
+      "f_v_bound": 3.0,
+      "record_every": 25,
+      "store_full_history": false
+    },
+    "measurement": {
+      "activation_rule": "v_zero_crossing",
+      "activation_level": 0.0,
+      "cv_fit_skip_start_cm": 0.5,
+      "cv_fit_skip_end_cm": 0.2,
+      "block_margin_cm": 0.3,
+      "block_window_ms": 200.0
+    },
+    "seed": 20260810,
+    "label": "ex03_convergence"
+  },
+  "measurements": {
+    "spatial_fitted_order_asymptotic": 1.9986645621265295,
+    "spatial_fitted_order_all_points": 2.6605663724758224,
+    "spatial_pairwise_orders": [
+      5.3090145355223335,
+      1.996801447421205,
+      1.9992083763464323,
+      1.999802591205318
+    ],
+    "velocity_observed_order": 1.9793225862129593,
+    "velocity_richardson_cm_per_ms": 0.025670498034672883,
+    "velocity_error_at_default_dx_relative": 0.005215701609456835,
+    "euler_fitted_order_smooth": 0.998804320040187,
+    "euler_pairwise_orders_smooth": [
+      0.9979151815812297,
+      0.9989625412626911,
+      0.9994824968691407
+    ],
+    "rk4_fitted_order_smooth": 3.954525847642344,
+    "rk4_pairwise_orders_smooth": [
+      4.019523403945024,
+      4.008298676191645,
+      3.8178311866072687
+    ],
+    "euler_fitted_order_with_stimulus": 1.003415647711157,
+    "rk4_fitted_order_with_stimulus": 1.0196814933415244
+  }
+}

@@ -1,0 +1,38 @@
+# FibroBlock — exact dependency pins.
+#
+# Versions are pinned with "==" (never ">=") so that an examiner cloning this
+# repository months from now installs the same numerical libraries that
+# produced the committed figures. Floating pins are the single most common
+# cause of "the figures don't regenerate" in computational coursework.
+#
+# Verified working on: Windows 11, CPython 3.11.9.
+#
+# Install with:
+#     python -m venv .venv
+#     .venv\Scripts\activate          (Windows)
+#     source .venv/bin/activate       (Linux / macOS)
+#     pip install -r requirements.txt
+
+# --- Core numerics ----------------------------------------------------------
+numpy==2.4.6
+# SciPy is used ONLY for root finding (brentq) and least-squares fitting.
+# It is deliberately NOT used for time integration: the assignment requires
+# demonstrating the stability limit of our own hand-coded explicit scheme,
+# and an adaptive solver such as solve_ivp would silently hide that limit.
+scipy==1.17.1
+
+# --- Plotting ---------------------------------------------------------------
+matplotlib==3.11.1
+
+# --- Tabular summary output (results/*.csv) ---------------------------------
+pandas==3.0.5
+
+# --- Testing ----------------------------------------------------------------
+pytest==9.1.1
+
+# --- Notebooks (narrative walkthrough only; not part of the pipeline) -------
+jupyter==1.1.1
+
+# --- Linting and formatting (development convenience, not required to run) --
+ruff==0.16.2
+black==26.5.1

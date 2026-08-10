@@ -1,0 +1,45 @@
+# FibroBlock — conda environment, mirroring requirements.txt exactly.
+#
+# The pins here are identical to those in requirements.txt. If you change one
+# file you MUST change the other; docs/numerical_choices.md explains why the
+# pinning matters for reproducibility.
+#
+# Create and activate with:
+#     conda env create -f environment.yml
+#     conda activate fibroblock
+
+name: fibroblock
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  # Interpreter version used to produce the committed figures.
+  - python=3.11.9
+
+  # --- Core numerics --------------------------------------------------------
+  - numpy=2.4.6
+  - scipy=1.17.1
+
+  # --- Plotting -------------------------------------------------------------
+  - matplotlib=3.11.1
+
+  # --- Tabular summary output ----------------------------------------------
+  - pandas=3.0.5
+
+  # --- Testing --------------------------------------------------------------
+  - pytest=9.1.1
+
+  # --- Notebooks ------------------------------------------------------------
+  - jupyter=1.1.1
+
+  # --- Linting and formatting ----------------------------------------------
+  - ruff=0.16.2
+  - black=26.5.1
+
+  # Install the project itself in editable mode so that "import fibroblock"
+  # works from anywhere in the tree.
+  - pip
+  - pip:
+      - -e .

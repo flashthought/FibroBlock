@@ -1,0 +1,171 @@
+{
+  "generated_utc": "2026-08-10T19:47:19Z",
+  "git_commit": "75b8844012db1a13487b258c198d605dc5dff422-dirty",
+  "libraries": {
+    "fibroblock": "1.0.0",
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.1"
+  },
+  "platform": {
+    "system": "Windows",
+    "release": "10",
+    "version": "10.0.26200",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD"
+  },
+  "config": {
+    "fhn": {
+      "a": 0.7,
+      "b": 0.8,
+      "eps": 0.08,
+      "time_unit_ms": 1.0
+    },
+    "grid": {
+      "length_cm": 2.0,
+      "dx_cm": 0.01,
+      "baseline_D": 0.001
+    },
+    "gap": {
+      "rho": 1.0,
+      "gap_length_cm": 0.1,
+      "gap_centre_cm": 1.0,
+      "averaging": "harmonic"
+    },
+    "stimulus": {
+      "amplitude": 1.0,
+      "width_cm": 0.1,
+      "duration_ms": 1.0,
+      "start_ms": 0.0
+    },
+    "solver": {
+      "dt_ms": 0.02,
+      "t_end_ms": 300.0,
+      "method": "euler",
+      "f_v_bound": 3.0,
+      "record_every": 25,
+      "store_full_history": false
+    },
+    "measurement": {
+      "activation_rule": "v_zero_crossing",
+      "activation_level": 0.0,
+      "cv_fit_skip_start_cm": 0.5,
+      "cv_fit_skip_end_cm": 0.2,
+      "block_margin_cm": 0.3,
+      "block_window_ms": 200.0
+    },
+    "seed": 20260810,
+    "label": "ex06_block_threshold"
+  },
+  "arrays": {
+    "gap_lengths_cm": [
+      9
+    ],
+    "critical_rho_harmonic": [
+      9
+    ],
+    "gap_lengths_arithmetic_cm": [
+      9
+    ],
+    "critical_rho_arithmetic": [
+      9
+    ],
+    "grid_gap_lengths_cm": [
+      9
+    ],
+    "grid_rho_values": [
+      10
+    ],
+    "grid_propagates": [
+      9,
+      10
+    ],
+    "x_cm": [
+      201
+    ],
+    "peak_V_blocked": [
+      201
+    ],
+    "peak_V_propagating": [
+      201
+    ],
+    "spacetime_times_ms": [
+      206
+    ],
+    "spacetime_V_propagating": [
+      206,
+      201
+    ],
+    "spacetime_V_blocked": [
+      206,
+      201
+    ]
+  },
+  "measurements": {
+    "gap_lengths_cm": [
+      0.01,
+      0.02,
+      0.04,
+      0.06,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "critical_rho_harmonic": [
+      0.06702555847167968,
+      0.13242253112792962,
+      0.14846675109863278,
+      0.15438420104980466,
+      0.15725141906738277,
+      0.1574954376220703,
+      0.1574954376220703,
+      0.1574954376220703,
+      0.1574954376220703
+    ],
+    "gap_lengths_arithmetic_cm": [
+      0.01,
+      0.02,
+      0.04,
+      0.06,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "critical_rho_arithmetic": [
+      NaN,
+      0.12711512756347654,
+      0.15127296447753902,
+      0.15895954895019526,
+      0.16304685974121091,
+      0.16341288757324218,
+      0.16347389221191405,
+      0.16347389221191405,
+      0.16347389221191405
+    ],
+    "harmonic_over_arithmetic_ratio": [
+      1.041752729719779,
+      0.9814493396847332,
+      0.9712169043595856,
+      0.9644553677205026,
+      0.9637883520752324,
+      0.9634286887713313,
+      0.9634286887713313,
+      0.9634286887713313
+    ],
+    "largest_scheme_disagreement_relative": 0.04175272971977906,
+    "arithmetic_unblockable_gap_lengths_cm": [
+      0.01
+    ],
+    "critical_rho_shortest_gap": 0.06702555847167968,
+    "critical_rho_saturated": 0.1574954376220703,
+    "threshold_rise_relative": 1.3497818028419246,
+    "demonstration_gap_length_cm": 0.1,
+    "demonstration_critical_rho": 0.15725141906738277,
+    "block_criterion": "blocked if no node at x > 1.3500 cm reaches V = 0.0 within 200.0 ms of the stimulus"
+  }
+}

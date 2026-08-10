@@ -1,0 +1,168 @@
+{
+  "figure": "fig_ex07_conduction_delay",
+  "caption": "Conduction delay does NOT diverge at the block threshold, contrary to the saddle-node expectation. Crossing the 0.1 cm gap takes 27.4 ms in a healthy strand and rises to 43.4 ms near threshold, but over the final three decades of approach the excess delay changes by only 15.5 %, saturating at 16.0 ms; a power-law fit returns -0.072 with R^2 = 0.59, not the predicted -0.5. Panel (d) gives the reason: a stalled front cannot outlast its own upstream source, which repolarises on the recovery timescale, so the ceiling falls as the recovery rate rises -- measured exponent -1.46 against the -1 a pure 1/eps cap would give, the excess steepness coming from eps also shifting rho_crit itself. The transition to block is therefore discontinuous in delay: the wave crosses within roughly the recovery time, or not at all.",
+  "files": {
+    "png": "E:\\FibroBlock\\figures\\fig_ex07_conduction_delay.png",
+    "pdf": "E:\\FibroBlock\\figures\\fig_ex07_conduction_delay.pdf"
+  },
+  "generated_utc": "2026-08-10T22:04:22Z",
+  "git_commit": "75b8844012db1a13487b258c198d605dc5dff422-dirty",
+  "libraries": {
+    "fibroblock": "1.0.0",
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.1"
+  },
+  "platform": {
+    "system": "Windows",
+    "release": "10",
+    "version": "10.0.26200",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD"
+  },
+  "config": {
+    "fhn": {
+      "a": 0.7,
+      "b": 0.8,
+      "eps": 0.08,
+      "time_unit_ms": 1.0
+    },
+    "grid": {
+      "length_cm": 2.0,
+      "dx_cm": 0.01,
+      "baseline_D": 0.001
+    },
+    "gap": {
+      "rho": 1.0,
+      "gap_length_cm": 0.1,
+      "gap_centre_cm": 1.0,
+      "averaging": "harmonic"
+    },
+    "stimulus": {
+      "amplitude": 1.0,
+      "width_cm": 0.1,
+      "duration_ms": 1.0,
+      "start_ms": 0.0
+    },
+    "solver": {
+      "dt_ms": 0.02,
+      "t_end_ms": 300.0,
+      "method": "euler",
+      "f_v_bound": 3.0,
+      "record_every": 25,
+      "store_full_history": false
+    },
+    "measurement": {
+      "activation_rule": "v_zero_crossing",
+      "activation_level": 0.0,
+      "cv_fit_skip_start_cm": 0.5,
+      "cv_fit_skip_end_cm": 0.2,
+      "block_margin_cm": 0.3,
+      "block_window_ms": 200.0
+    },
+    "seed": 20260810,
+    "label": "ex07_conduction_delay"
+  },
+  "measurements": {
+    "gap_length_cm": 0.1,
+    "critical_rho": 0.1572519306605245,
+    "reference_transit_ms": 27.414813231157808,
+    "rho_values": [
+      0.4717557919815735,
+      0.314503861321049,
+      0.20442750985868186,
+      0.17297712372657698,
+      0.16196948858034024,
+      0.15882444996712974,
+      0.15772368645250606,
+      0.15740918259118503,
+      0.15726765585359057,
+      0.1572535031798311,
+      0.15725208791245515,
+      0.15725194638571757,
+      0.15725193223304382
+    ],
+    "excess_above_critical": [
+      0.314503861321049,
+      0.1572519306605245,
+      0.04717557919815735,
+      0.015725193066052467,
+      0.004717557919815735,
+      0.0015725193066052356,
+      0.00047175579198155404,
+      0.000157251930660518,
+      1.5725193066057352e-05,
+      1.5725193066029597e-06,
+      1.5725193064364262e-07,
+      1.5725193064364262e-08,
+      1.5725193092119838e-09
+    ],
+    "transit_times_ms": [
+      29.739769948735727,
+      31.746203330893092,
+      34.92347490474024,
+      36.909221356795996,
+      38.334435127535116,
+      39.29785410594695,
+      40.180260280768145,
+      40.909038932740074,
+      42.25675577763755,
+      43.09688555594075,
+      43.34245255199029,
+      43.376080860165715,
+      43.37959364997087
+    ],
+    "excess_delays_ms": [
+      2.324956717577919,
+      4.331390099735284,
+      7.508661673582431,
+      9.494408125638188,
+      10.919621896377308,
+      11.883040874789145,
+      12.765447049610337,
+      13.494225701582266,
+      14.841942546479743,
+      15.682072324782943,
+      15.927639320832483,
+      15.961267629007907,
+      15.964780418813064
+    ],
+    "power_law_exponent": -0.0716967506594012,
+    "power_law_prefactor": 5.42269014943059,
+    "power_law_r_squared": 0.5871839050253215,
+    "saturated_excess_delay_ms": 15.964780418813064,
+    "tail_variation_over_three_decades": 0.1547503098958674,
+    "max_transit_ms": 43.37959364997087,
+    "max_slowing_factor": 1.5823413890950233,
+    "eps_values": [
+      0.04,
+      0.05,
+      0.06,
+      0.07,
+      0.08,
+      0.09,
+      0.1
+    ],
+    "eps_critical_rho": [
+      0.03824614357948301,
+      0.05641694712638855,
+      0.0812763373851776,
+      0.11309788203239438,
+      0.1572518956661224,
+      0.2236687896251678,
+      0.33548361992835984
+    ],
+    "eps_saturated_delays_ms": [
+      33.282122117202015,
+      26.731090889333828,
+      21.75749022616673,
+      18.0585439643283,
+      14.843065723750613,
+      11.617534170841552,
+      8.024968235191324
+    ],
+    "eps_scaling_exponent": -1.4588235160100775,
+    "eps_scaling_r_squared": 0.9504287892973249
+  }
+}

@@ -1,0 +1,14 @@
+quantity,value,units
+V_rest,-1.199408035,dimensionless
+w_rest,-0.624260044,dimensionless
+jacobian_trace,-0.502579635,1/ms
+jacobian_determinant,0.108069097,1/ms^2
+jacobian_discriminant,-0.179690097,1/ms^2
+eigenvalue_real_part,-0.251289818,1/ms
+eigenvalue_imag_part,0.211949344,1/ms
+classification,stable spiral,-
+bistable_root_V1_rest,-1.199408035,dimensionless
+bistable_root_V2_threshold,-0.786320973,dimensionless
+bistable_root_V3_excited,1.985729008,dimensionless
+cv_prefactor,0.963042579,1/sqrt(ms)
+stimulus_threshold,0.606281161,units of f

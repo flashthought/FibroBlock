@@ -1,0 +1,11 @@
+quantity,value,units
+final_L2_error_vs_sealed,9.612258e-06,dimensionless x sqrt(cm)
+final_Linf_error_vs_sealed,1.787839e-05,dimensionless
+final_Linf_error_vs_infinite_line,2.015018e-05,dimensionless
+initial_charge,2.506628274631000e-01,dimensionless x cm
+final_charge,2.506628274631001e-01,dimensionless x cm
+analytic_charge,2.506628274631000e-01,dimensionless x cm
+max_relative_charge_drift,1.328745e-15,dimensionless
+peak_max_relative_error,6.242478e-05,dimensionless
+sigma_at_final_time,0.223607,cm
+sealed_vs_infinite_line_difference,2.030347e-05,dimensionless

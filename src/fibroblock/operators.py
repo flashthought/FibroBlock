@@ -234,6 +234,177 @@ def total_charge(V: np.ndarray, quadrature_weights: np.ndarray) -> float:
     return float(np.dot(quadrature_weights, V))
 
 
+def analytic_gaussian(
+    x: np.ndarray,
+    t: float,
+    D: float,
+    x0: float,
+    sigma0: float,
+    amplitude: float = 1.0,
+) -> np.ndarray:
+    """Closed-form solution of pure diffusion from a Gaussian initial condition.
+
+    For ``V_t = D V_xx`` on the infinite line with
+    ``V(x, 0) = A exp(-(x - x0)^2 / (2 sigma0^2))``, the solution stays Gaussian
+    and simply spreads:
+
+    .. math::
+        V(x, t) = A \\frac{\\sigma_0}{\\sigma(t)}
+                  \\exp\\!\\left(-\\frac{(x - x_0)^{2}}{2\\sigma(t)^{2}}\\right),
+        \\qquad \\sigma(t)^{2} = \\sigma_0^{2} + 2 D t
+
+    Parameters
+    ----------
+    x : ndarray
+        Positions. cm.
+    t : float
+        Time. ms.
+    D : float
+        Diffusion coefficient. cm^2/ms.
+    x0 : float
+        Centre of the initial Gaussian. cm.
+    sigma0 : float
+        Initial standard deviation. cm.
+    amplitude : float, optional
+        Initial peak height. Default 1.
+
+    Returns
+    -------
+    ndarray
+        The exact solution at time ``t``.
+
+    Raises
+    ------
+    ValueError
+        If ``sigma0`` is non-positive, or ``D`` or ``t`` is negative.
+
+    Notes
+    -----
+    This is the reference for the ``ex04`` verification. It is the
+    **infinite-line** solution, so it is only valid while the Gaussian has not
+    yet felt the sealed ends. The experiment keeps ``sigma(t)`` small compared
+    with the distance to either boundary and reports the residual boundary
+    contamination, rather than assuming it away.
+
+    The prefactor ``sigma0 / sigma(t)`` is what conserves the integral: the
+    Gaussian gets wider and shorter in exact proportion, so
+    ``integral V dx = A sigma0 sqrt(2 pi)`` for all time. That is the analytic
+    counterpart of the discrete charge conservation tested in
+    :func:`total_charge`.
+    """
+    if sigma0 <= 0.0:
+        raise ValueError(f"sigma0 must be positive, got {sigma0}")
+    if D < 0.0:
+        raise ValueError(f"D must be non-negative, got {D}")
+    if t < 0.0:
+        raise ValueError(f"t must be non-negative, got {t}")
+
+    # Variance grows linearly in time: sigma^2 = sigma0^2 + 2 D t. The 2 is
+    # exact, from the fundamental solution of the heat equation.
+    variance = sigma0**2 + 2.0 * D * t
+    sigma = np.sqrt(variance)
+
+    return amplitude * (sigma0 / sigma) * np.exp(-((x - x0) ** 2) / (2.0 * variance))
+
+
+def analytic_gaussian_sealed(
+    x: np.ndarray,
+    t: float,
+    D: float,
+    x0: float,
+    sigma0: float,
+    length: float,
+    amplitude: float = 1.0,
+    n_images: int = 4,
+) -> np.ndarray:
+    """Exact pure-diffusion solution on a **sealed** strand, by method of images.
+
+    :func:`analytic_gaussian` solves the problem on the infinite line, so it
+    slowly stops matching a sealed strand as the profile reaches the ends. The
+    no-flux problem on ``[0, L]`` is solved exactly by summing image Gaussians
+    reflected in both boundaries:
+
+    .. math::
+        V(x, t) = \\sum_{n=-\\infty}^{\\infty}
+            \\Big[ G\\big(x - (x_0 + 2nL)\\big)
+                 + G\\big(x - (-x_0 + 2nL)\\big) \\Big]
+
+    with ``G(u) = A (sigma_0/sigma) exp(-u^2 / 2 sigma^2)`` and
+    ``sigma^2 = sigma_0^2 + 2 D t``.
+
+    Parameters
+    ----------
+    x : ndarray
+        Positions. cm.
+    t : float
+        Time. ms.
+    D : float
+        Diffusion coefficient. cm^2/ms.
+    x0 : float
+        Centre of the initial Gaussian. cm.
+    sigma0 : float
+        Initial standard deviation. cm.
+    length : float
+        Strand length ``L``. cm.
+    amplitude : float, optional
+        Initial peak height. Default 1.
+    n_images : int, optional
+        Number of image pairs on each side. Default 4, which places the
+        nearest neglected image at least ``8L`` away; for the parameters used
+        here that is more than 30 standard deviations, so its contribution is
+        below double precision.
+
+    Returns
+    -------
+    ndarray
+        The exact solution for the sealed strand at time ``t``.
+
+    Raises
+    ------
+    ValueError
+        If ``sigma0`` or ``length`` is non-positive, or ``D`` or ``t`` is
+        negative.
+
+    Notes
+    -----
+    Why both solutions are kept: comparing the computed result against the
+    *infinite-line* Gaussian conflates two different errors -- the
+    discretisation error, and the physical difference between an open line and
+    a sealed strand. Comparing against this images solution isolates the
+    discretisation error, which is the thing a convergence study is supposed to
+    measure. ``ex04`` reports both and shows that at 20 ms they are comparable,
+    which is exactly why the distinction is worth making.
+
+    Each reflection flips the sign of the derivative at the wall, so the summed
+    field has zero slope at both ends by construction -- the same condition the
+    ghost nodes impose numerically.
+    """
+    if sigma0 <= 0.0:
+        raise ValueError(f"sigma0 must be positive, got {sigma0}")
+    if length <= 0.0:
+        raise ValueError(f"length must be positive, got {length}")
+    if D < 0.0:
+        raise ValueError(f"D must be non-negative, got {D}")
+    if t < 0.0:
+        raise ValueError(f"t must be non-negative, got {t}")
+    if n_images < 0:
+        raise ValueError(f"n_images must be non-negative, got {n_images}")
+
+    variance = sigma0**2 + 2.0 * D * t
+    sigma = np.sqrt(variance)
+    peak = amplitude * (sigma0 / sigma)
+
+    total = np.zeros_like(x, dtype=float)
+    for n in range(-n_images, n_images + 1):
+        shift = 2.0 * n * length
+        # Direct image, reflected an even number of times.
+        total += peak * np.exp(-((x - (x0 + shift)) ** 2) / (2.0 * variance))
+        # Mirror image about x = 0, reflected an odd number of times.
+        total += peak * np.exp(-((x - (-x0 + shift)) ** 2) / (2.0 * variance))
+
+    return total
+
+
 def uniform_second_difference(V: np.ndarray, D: float, dx: float) -> np.ndarray:
     """Plain constant-coefficient second difference, for cross-checking only.
 

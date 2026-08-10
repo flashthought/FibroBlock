@@ -25,8 +25,7 @@ dependencies:
   # --- Plotting -------------------------------------------------------------
   - matplotlib=3.11.1
 
-  # --- Tabular summary output ----------------------------------------------
-  - pandas=3.0.5
+  # No pandas: summary tables are written with the standard library csv module.
 
   # --- Testing --------------------------------------------------------------
   - pytest=9.1.1

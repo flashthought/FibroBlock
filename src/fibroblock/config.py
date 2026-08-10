@@ -29,6 +29,7 @@ docstring. Fields without units are dimensionless by construction.
 from __future__ import annotations
 
 import dataclasses
+import math
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
@@ -368,14 +369,20 @@ class SolverParams:
     def n_steps(self) -> int:
         """Number of time steps needed to reach ``t_end_ms``.
 
-        Rounded up so the simulation never stops short of the requested end
+        Rounded up, so the simulation never stops short of the requested end
         time.
+
+        Notes
+        -----
+        The division is rounded to nine decimal places before the ceiling is
+        taken. Without that, ``300.0 / 0.02`` evaluating to 14999.999999999998
+        would round up to 15000 correctly, but ``t_end / dt`` landing a hair
+        *above* an integer would add one spurious extra step and shift every
+        recorded time by ``dt``. Nine places is far below any step size that
+        would be sensible here and far above the round-off being suppressed.
         """
-        # Exact-division guard: adding a small relative epsilon before the
-        # ceiling avoids an off-by-one extra step when t_end/dt is an integer
-        # that floating-point arithmetic renders as 14999.999999999998.
-        raw = self.t_end_ms / self.dt_ms
-        return int(-(-round(raw, 9) // 1))
+        steps_exact = round(self.t_end_ms / self.dt_ms, 9)
+        return math.ceil(steps_exact)
 
 
 @dataclass(frozen=True)
@@ -405,9 +412,12 @@ class MeasurementParams:
     block_margin_cm : float
         How far beyond the downstream edge of the gap a node must be before its
         activation counts as successful propagation. cm. Value 0.3, which is
-        about ten front thicknesses -- comfortably past the region where
+        about sixteen front thicknesses -- comfortably past the region where
         electrotonic spread alone can raise ``V`` without a regenerative
-        upstroke.
+        upstroke. The same offset is used symmetrically on the upstream side to
+        place the probe for the conduction-delay measurement, so delay is
+        measured between the two points that bracket the region where block is
+        judged.
     block_window_ms : float
         Time after the stimulus within which activation must occur for
         propagation to count as successful. ms. Value 200.

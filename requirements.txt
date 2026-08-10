@@ -24,8 +24,10 @@ scipy==1.17.1
 # --- Plotting ---------------------------------------------------------------
 matplotlib==3.11.1
 
-# --- Tabular summary output (results/*.csv) ---------------------------------
-pandas==3.0.5
+# Note: there is deliberately no pandas dependency. The summary tables in
+# results/ are written with the standard library's csv module, which is fully
+# transparent for a few dozen rows and removes a large pinned dependency from
+# the critical path of "can the examiner regenerate the figures?".
 
 # --- Testing ----------------------------------------------------------------
 pytest==9.1.1

@@ -1,0 +1,86 @@
+{
+  "figure": "fig_ex01_single_cell",
+  "caption": "The FitzHugh-Nagumo medium is excitable, not oscillatory: the rest state at V* = -1.1994 is a stable spiral (tr J = -0.5026 < 0, det J = 0.1081 > 0), so it stays put until a stimulus exceeds A* = 0.6063, after which a 10 % change in amplitude switches the response between a passive decay and a full 1.70-amplitude action potential.",
+  "files": {
+    "png": "E:\\FibroBlock\\figures\\fig_ex01_single_cell.png",
+    "pdf": "E:\\FibroBlock\\figures\\fig_ex01_single_cell.pdf"
+  },
+  "generated_utc": "2026-08-10T18:00:16Z",
+  "git_commit": "995c876d1c9f4a67ceb657fe42d8d3e5e29192a2-dirty",
+  "libraries": {
+    "fibroblock": "1.0.0",
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.1"
+  },
+  "platform": {
+    "system": "Windows",
+    "release": "10",
+    "version": "10.0.26200",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD"
+  },
+  "config": {
+    "fhn": {
+      "a": 0.7,
+      "b": 0.8,
+      "eps": 0.08,
+      "time_unit_ms": 1.0
+    },
+    "grid": {
+      "length_cm": 2.0,
+      "dx_cm": 0.01,
+      "baseline_D": 0.001
+    },
+    "gap": {
+      "rho": 1.0,
+      "gap_length_cm": 0.1,
+      "gap_centre_cm": 1.0,
+      "averaging": "harmonic"
+    },
+    "stimulus": {
+      "amplitude": 1.0,
+      "width_cm": 0.1,
+      "duration_ms": 1.0,
+      "start_ms": 0.0
+    },
+    "solver": {
+      "dt_ms": 0.02,
+      "t_end_ms": 300.0,
+      "method": "euler",
+      "f_v_bound": 3.0,
+      "record_every": 25,
+      "store_full_history": false
+    },
+    "measurement": {
+      "activation_rule": "v_zero_crossing",
+      "activation_level": 0.0,
+      "cv_fit_skip_start_cm": 0.5,
+      "cv_fit_skip_end_cm": 0.2,
+      "block_margin_cm": 0.3,
+      "block_window_ms": 200.0
+    },
+    "seed": 20260810,
+    "label": "ex01_single_cell"
+  },
+  "measurements": {
+    "V_rest": -1.1994080352440348,
+    "w_rest": -0.6242600440550435,
+    "jacobian_trace": -0.5025796350079559,
+    "jacobian_determinant": 0.10806909664050916,
+    "jacobian_discriminant": -0.17969009703730648,
+    "eigenvalue_real": -0.25128981750397794,
+    "eigenvalue_imag": 0.2119493436161732,
+    "classification": "stable spiral",
+    "is_excitable": true,
+    "bistable_root_V1": -1.199408035244036,
+    "bistable_root_V2": -0.7863209726808377,
+    "bistable_root_V3": 1.9857290079248737,
+    "cv_prefactor": 0.9630425785585018,
+    "stimulus_threshold": 0.6062811613082886,
+    "bisection_iterations": 22,
+    "peak_V_suprathreshold": 1.6983878231488991,
+    "peak_V_subthreshold": -0.5927454118083157
+  }
+}

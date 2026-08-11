@@ -1,4 +1,4 @@
-"""Experiment 7: conduction delay as coupling approaches the critical value.
+r"""Experiment 7: conduction delay as coupling approaches the critical value.
 
 Question
 --------
@@ -18,7 +18,7 @@ What was expected, and what actually happens
 The natural expectation is a divergence. If block occurred through a saddle-node
 bifurcation, the time spent traversing the bottleneck would scale as
 
-.. math:: \\Delta t \\sim (\\rho - \\rho_{\\mathrm{crit}})^{-1/2}
+.. math:: \Delta t \sim (\rho - \rho_{\mathrm{crit}})^{-1/2}
 
 and grow without bound as the threshold is approached.
 
@@ -302,9 +302,9 @@ def main() -> dict[str, Any]:
     eps_critical = np.array(eps_critical)
 
     if eps_used.size >= 3:
-        eps_exponent, eps_prefactor, eps_r2 = measure.log_log_slope(
-            eps_used, eps_delays
-        )
+        # The prefactor of this fit is not reported: the physically meaningful
+        # coefficient is the one anchored at the baseline eps, drawn in panel (d).
+        eps_exponent, _, eps_r2 = measure.log_log_slope(eps_used, eps_delays)
         print(
             f"      saturated excess scales as eps^{eps_exponent:.3f} "
             f"(R^2 = {eps_r2:.5f}); a pure 1/eps ceiling would give -1"
@@ -317,11 +317,7 @@ def main() -> dict[str, Any]:
             "recovery timescale sets the ceiling, but it is not the only factor."
         )
     else:
-        eps_exponent, eps_prefactor, eps_r2 = (
-            float("nan"),
-            float("nan"),
-            float("nan"),
-        )
+        eps_exponent, eps_r2 = float("nan"), float("nan")
 
     # ---- Figure ------------------------------------------------------------
     fig, axes = plotting.new_figure(

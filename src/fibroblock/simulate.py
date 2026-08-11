@@ -25,7 +25,8 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from fibroblock import fhn, grid as gridmod, operators, solvers, stimulus
+from fibroblock import fhn, operators, solvers, stimulus
+from fibroblock import grid as gridmod
 from fibroblock.config import RunConfig
 from fibroblock.grid import Grid
 from fibroblock.solvers import StabilityLimits
@@ -201,15 +202,15 @@ def run_simulation(
     include_reaction: bool = True,
     include_stimulus: bool = True,
 ) -> SimulationResult:
-    """Integrate the monodomain FitzHugh-Nagumo system on the strand.
+    r"""Integrate the monodomain FitzHugh-Nagumo system on the strand.
 
     Solves
 
     .. math::
-        \\frac{\\partial V}{\\partial t}
-            &= \\frac{\\partial}{\\partial x}\\!\\left(D(x)
-               \\frac{\\partial V}{\\partial x}\\right) + f(V, w) \\\\
-        \\frac{\\partial w}{\\partial t} &= \\varepsilon (V + a - b w)
+        \frac{\partial V}{\partial t}
+            &= \frac{\partial}{\partial x}\!\left(D(x)
+               \frac{\partial V}{\partial x}\right) + f(V, w) \\
+        \frac{\partial w}{\partial t} &= \varepsilon (V + a - b w)
 
     with sealed ends and a rectangular stimulus near ``x = 0``.
 
@@ -293,7 +294,9 @@ def run_simulation(
         w = initial_w.astype(float).copy()
 
     # ---- The right-hand side ----------------------------------------------
-    def rhs(t: float, V_in: np.ndarray, w_in: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    def rhs(
+        t: float, V_in: np.ndarray, w_in: np.ndarray
+    ) -> tuple[np.ndarray, np.ndarray]:
         """Evaluate (dV/dt, dw/dt) for the semi-discrete system."""
         # Conservative divergence: d/dx (D dV/dx), with sealed ends.
         dV = operators.divergence(V_in, D_half, dx)
@@ -507,7 +510,9 @@ def run_single_cell(
     V_values[0] = V[0]
     w_values[0] = w[0]
 
-    def rhs(t: float, V_in: np.ndarray, w_in: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    def rhs(
+        t: float, V_in: np.ndarray, w_in: np.ndarray
+    ) -> tuple[np.ndarray, np.ndarray]:
         """Space-clamped right-hand side: kinetics only, no diffusion."""
         i_stim = amplitude if stimulus.is_stimulus_active(t, stim_params) else 0.0
         return (

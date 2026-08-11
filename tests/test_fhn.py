@@ -13,7 +13,6 @@ import pytest
 from fibroblock import config as cfg
 from fibroblock import fhn
 
-
 # ---------------------------------------------------------------------------
 # Rest state
 # ---------------------------------------------------------------------------

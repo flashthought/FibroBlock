@@ -1,6 +1,6 @@
 {
-  "generated_utc": "2026-08-10T18:07:25Z",
-  "git_commit": "995c876d1c9f4a67ceb657fe42d8d3e5e29192a2-dirty",
+  "generated_utc": "2026-08-11T10:23:44Z",
+  "git_commit": "e67ad5293860809d8d50018c8977bad271b3d3d7-dirty",
   "libraries": {
     "fibroblock": "1.0.0",
     "python": "3.11.9",
@@ -113,6 +113,6 @@
     "peak_max_relative_error": 6.242477676418807e-05,
     "sigma_final_cm": 0.22360679774997896,
     "sealed_vs_infinite_difference": 2.0303465824526405e-05,
-    "wall_seconds": 0.01963759999944159
+    "wall_seconds": 0.022080100000039238
   }
 }

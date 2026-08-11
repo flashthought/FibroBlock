@@ -1,4 +1,4 @@
-"""Experiment 8: one-at-a-time sensitivity of the reported quantities.
+r"""Experiment 8: one-at-a-time sensitivity of the reported quantities.
 
 Question
 --------
@@ -11,7 +11,7 @@ Design
 Each parameter is perturbed by +/-10 % about the baseline with everything else
 held fixed, and the **elasticity** is reported:
 
-.. math:: S = \\frac{\\Delta Y / Y_0}{\\Delta X / X_0}
+.. math:: S = \frac{\Delta Y / Y_0}{\Delta X / X_0}
 
 An elasticity of 1 means a 10 % change in the parameter produces a 10 % change
 in the output; 0.5 is the signature of a square-root dependence; 0 means the
@@ -43,14 +43,21 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from fibroblock import config as cfg  # noqa: E402
-from fibroblock import measure, plotting, simulate, solvers, stimulus, utils  # noqa: E402
+from fibroblock import (  # noqa: E402
+    measure,
+    plotting,
+    simulate,
+    solvers,
+    stimulus,
+    utils,
+)
 
 # Fractional perturbation applied to each parameter. Small enough to stay in
 # the locally linear regime, large enough that the response is well clear of
@@ -189,9 +196,9 @@ def measure_outputs(
 
 
 def elasticity(high: float, low: float, baseline: float, fraction: float) -> float:
-    """Normalised sensitivity (elasticity) from a central difference.
+    r"""Normalised sensitivity (elasticity) from a central difference.
 
-    .. math:: S = \\frac{(Y_+ - Y_-)/Y_0}{(X_+ - X_-)/X_0}
+    .. math:: S = \frac{(Y_+ - Y_-)/Y_0}{(X_+ - X_-)/X_0}
 
     Parameters
     ----------
@@ -303,7 +310,9 @@ def main() -> dict[str, Any]:
     numerical = [n for n in baseline_values if n in NUMERICAL_PARAMETERS]
 
     largest_numerical_theta = max(
-        abs(theta_elasticities[n]) for n in numerical if np.isfinite(theta_elasticities[n])
+        abs(theta_elasticities[n])
+        for n in numerical
+        if np.isfinite(theta_elasticities[n])
     )
     largest_numerical_rho = max(
         abs(rho_elasticities[n]) for n in numerical if np.isfinite(rho_elasticities[n])
@@ -338,7 +347,9 @@ def main() -> dict[str, Any]:
         """Draw a horizontal bar chart of elasticities, largest magnitude first."""
         ordered = sorted(
             elasticities,
-            key=lambda n: abs(elasticities[n]) if np.isfinite(elasticities[n]) else -1.0,
+            key=lambda n: (
+                abs(elasticities[n]) if np.isfinite(elasticities[n]) else -1.0
+            ),
         )
         positions = np.arange(len(ordered))
         values = [elasticities[n] for n in ordered]

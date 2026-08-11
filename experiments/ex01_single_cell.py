@@ -292,7 +292,9 @@ def main() -> dict[str, Any]:
         label="rest state",
     )
     for root, name in ((V1, "$V_1$"), (V2, "$V_2$"), (V3, "$V_3$")):
-        ax_phase.axvline(root, color=plotting.PALETTE["green"], linewidth=0.8, alpha=0.6)
+        ax_phase.axvline(
+            root, color=plotting.PALETTE["green"], linewidth=0.8, alpha=0.6
+        )
         ax_phase.text(
             root,
             2.6,
@@ -417,7 +419,7 @@ def main() -> dict[str, Any]:
         ],
     )
 
-    print(f"  figure -> figures/fig_ex01_single_cell.png / .pdf")
+    print("  figure -> figures/fig_ex01_single_cell.png / .pdf")
     return measurements
 
 

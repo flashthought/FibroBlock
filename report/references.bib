@@ -1,0 +1,219 @@
+% ---------------------------------------------------------------------------
+% FibroBlock bibliography
+%
+% WARNING: entries marked with a "verify" note were written from background
+% knowledge and have NOT been checked against the published papers. Retrieve
+% each one and confirm the bibliographic details AND the specific numerical
+% claim attributed to it in docs/validation_log.md before submitting.
+%
+% The two entries without such a note (fitzhugh1961, nagumo1962, keener2009)
+% are used for the mathematics implemented in the code, which can be checked
+% directly against src/fibroblock/fhn.py.
+% ---------------------------------------------------------------------------
+
+% --- The kinetics themselves ------------------------------------------------
+
+@article{fitzhugh1961,
+  author  = {FitzHugh, Richard},
+  title   = {Impulses and Physiological States in Theoretical Models of Nerve Membrane},
+  journal = {Biophysical Journal},
+  volume  = {1},
+  number  = {6},
+  pages   = {445--466},
+  year    = {1961},
+  doi     = {10.1016/S0006-3495(61)86902-6}
+}
+
+@article{nagumo1962,
+  author  = {Nagumo, Jin-Ichi and Arimoto, Suguru and Yoshizawa, Shuji},
+  title   = {An Active Pulse Transmission Line Simulating Nerve Axon},
+  journal = {Proceedings of the IRE},
+  volume  = {50},
+  number  = {10},
+  pages   = {2061--2070},
+  year    = {1962},
+  doi     = {10.1109/JRPROC.1962.288235}
+}
+
+% --- The bistable front-speed result used in fhn.py -------------------------
+
+@book{keener2009,
+  author    = {Keener, James and Sneyd, James},
+  title     = {Mathematical Physiology I: Cellular Physiology},
+  edition   = {2nd},
+  publisher = {Springer},
+  address   = {New York},
+  year      = {2009},
+  isbn      = {978-0-387-75846-6},
+  note      = {Section 6.2 gives the bistable travelling-front speed
+               theta = sqrt(A/2)(V1 - 2 V2 + V3) sqrt(D), which is the formula
+               implemented in fibroblock.fhn.analytic_cv_prefactor.}
+}
+
+% --- Cardiac propagation: velocities, coupling, block -----------------------
+
+@article{kleber2004,
+  author  = {Kl{\'e}ber, Andr{\'e} G. and Rudy, Yoram},
+  title   = {Basic Mechanisms of Cardiac Impulse Propagation and Associated Arrhythmias},
+  journal = {Physiological Reviews},
+  volume  = {84},
+  number  = {2},
+  pages   = {431--488},
+  year    = {2004},
+  doi     = {10.1152/physrev.00025.2003},
+  note    = {VERIFY: cited for conduction velocities by tissue and direction,
+             anisotropy ratios, and the safety factor for propagation.}
+}
+
+@article{rohr2004,
+  author  = {Rohr, Stephan},
+  title   = {Role of Gap Junctions in the Propagation of the Cardiac Action Potential},
+  journal = {Cardiovascular Research},
+  volume  = {62},
+  number  = {2},
+  pages   = {309--322},
+  year    = {2004},
+  doi     = {10.1016/j.cardiores.2003.11.035},
+  note    = {VERIFY: cited for the coupling reduction at which conduction fails
+             (quoted as roughly 5-20 per cent of control in validation_log.md).}
+}
+
+@article{shaw1997,
+  author  = {Shaw, Robin M. and Rudy, Yoram},
+  title   = {Ionic Mechanisms of Propagation in Cardiac Tissue: Roles of the
+             Sodium and L-type Calcium Currents During Reduced Excitability and
+             Decreased Gap Junction Coupling},
+  journal = {Circulation Research},
+  volume  = {81},
+  number  = {5},
+  pages   = {727--741},
+  year    = {1997},
+  doi     = {10.1161/01.RES.81.5.727},
+  note    = {VERIFY: cited for conduction persisting at very low coupling and
+             for saltatory (discrete, cell-to-cell) propagation, which the
+             continuum model in this project cannot represent.}
+}
+
+@article{debakker1993,
+  author  = {de Bakker, Jacques M. T. and van Capelle, Frans J. L. and
+             Janse, Michiel J. and Tasseron, Sara and Vermeulen, Jessica T. and
+             de Jonge, Norbert and Lahpor, Jaap R.},
+  title   = {Slow Conduction in the Infarcted Human Heart: `Zigzag' Course of Activation},
+  journal = {Circulation},
+  volume  = {88},
+  number  = {3},
+  pages   = {915--926},
+  year    = {1993},
+  doi     = {10.1161/01.CIR.88.3.915},
+  note    = {VERIFY: cited for fibrosis, tortuous conduction paths and the
+             resulting slow conduction and long delays.}
+}
+
+@article{spach1997,
+  author  = {Spach, Madison S. and Boineau, John P.},
+  title   = {Microfibrosis Produces Electrical Load Variations Due to Loss of
+             Side-to-Side Cell Connections},
+  journal = {Pacing and Clinical Electrophysiology},
+  volume  = {20},
+  number  = {2},
+  pages   = {397--413},
+  year    = {1997},
+  doi     = {10.1111/j.1540-8159.1997.tb06199.x},
+  note    = {VERIFY: cited for the electrical consequences of microfibrosis.}
+}
+
+@book{katz2010,
+  author    = {Katz, Arnold M.},
+  title     = {Physiology of the Heart},
+  edition   = {5th},
+  publisher = {Lippincott Williams and Wilkins},
+  address   = {Philadelphia},
+  year      = {2010},
+  isbn      = {978-1-60831-171-2},
+  note      = {VERIFY: cited for conduction velocities by tissue type and for
+               ventricular action potential durations.}
+}
+
+% --- Numerical methods ------------------------------------------------------
+
+@book{leveque2007,
+  author    = {LeVeque, Randall J.},
+  title     = {Finite Difference Methods for Ordinary and Partial Differential
+               Equations: Steady-State and Time-Dependent Problems},
+  publisher = {Society for Industrial and Applied Mathematics},
+  address   = {Philadelphia},
+  year      = {2007},
+  isbn      = {978-0-898716-29-0},
+  note      = {Von Neumann stability analysis; conservative finite-volume
+               discretisation of variable-coefficient diffusion.}
+}
+
+@book{patankar1980,
+  author    = {Patankar, Suhas V.},
+  title     = {Numerical Heat Transfer and Fluid Flow},
+  publisher = {Hemisphere Publishing},
+  address   = {Washington, DC},
+  year      = {1980},
+  isbn      = {978-0-89116-522-4},
+  note      = {The standard reference for the harmonic-mean interface
+               conductance used at half-nodes in fibroblock.grid.}
+}
+
+@article{roache1994,
+  author  = {Roache, Patrick J.},
+  title   = {Perspective: A Method for Uniform Reporting of Grid Refinement Studies},
+  journal = {Journal of Fluids Engineering},
+  volume  = {116},
+  number  = {3},
+  pages   = {405--413},
+  year    = {1994},
+  doi     = {10.1115/1.2910291},
+  note    = {Observed order of accuracy and Richardson extrapolation, as used
+             in experiments/ex03_convergence.py.}
+}
+
+% --- Software ---------------------------------------------------------------
+
+@article{harris2020numpy,
+  author  = {Harris, Charles R. and Millman, K. Jarrod and van der Walt,
+             St{\'e}fan J. and others},
+  title   = {Array Programming with {NumPy}},
+  journal = {Nature},
+  volume  = {585},
+  number  = {7825},
+  pages   = {357--362},
+  year    = {2020},
+  doi     = {10.1038/s41586-020-2649-2}
+}
+
+@article{virtanen2020scipy,
+  author  = {Virtanen, Pauli and Gommers, Ralf and Oliphant, Travis E. and others},
+  title   = {{SciPy} 1.0: Fundamental Algorithms for Scientific Computing in {Python}},
+  journal = {Nature Methods},
+  volume  = {17},
+  number  = {3},
+  pages   = {261--272},
+  year    = {2020},
+  doi     = {10.1038/s41592-019-0686-2}
+}
+
+@article{hunter2007matplotlib,
+  author  = {Hunter, John D.},
+  title   = {Matplotlib: A 2D Graphics Environment},
+  journal = {Computing in Science \& Engineering},
+  volume  = {9},
+  number  = {3},
+  pages   = {90--95},
+  year    = {2007},
+  doi     = {10.1109/MCSE.2007.55}
+}
+
+@misc{okabeito2008,
+  author       = {Okabe, Masataka and Ito, Kei},
+  title        = {Color Universal Design ({CUD}): How to Make Figures and
+                  Presentations That Are Friendly to Colorblind People},
+  year         = {2008},
+  howpublished = {\url{https://jfly.uni-koeln.de/color/}},
+  note         = {Source of the colour-blind-safe palette used in
+                  fibroblock.plotting.}
+}

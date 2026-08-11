@@ -106,7 +106,8 @@ def main() -> dict[str, Any]:
     )
 
     print(f"  D            = {D} cm^2/ms")
-    print(f"  sigma_0      = {GAUSSIAN_SIGMA0_CM} cm ({GAUSSIAN_SIGMA0_CM / config.grid.dx_cm:.0f} nodes)")
+    nodes_per_sigma = GAUSSIAN_SIGMA0_CM / config.grid.dx_cm
+    print(f"  sigma_0      = {GAUSSIAN_SIGMA0_CM} cm ({nodes_per_sigma:.0f} nodes)")
     print(f"  dt           = {config.solver.dt_ms} ms over {DIFFUSION_DURATION_MS} ms")
 
     # ---- Integrate ---------------------------------------------------------
@@ -168,9 +169,9 @@ def main() -> dict[str, Any]:
     final_l2 = float(l2_errors[-1])
     final_linf = float(linf_errors[-1])
     final_linf_infinite = float(linf_errors_infinite[-1])
-    print(f"  vs sealed-exact solution (discretisation error only):")
+    print("  vs sealed-exact solution (discretisation error only):")
     print(f"               L2 = {final_l2:.3e}, Linf = {final_linf:.3e}")
-    print(f"  vs infinite-line Gaussian (includes the boundary difference):")
+    print("  vs infinite-line Gaussian (includes the boundary difference):")
     print(f"               Linf = {final_linf_infinite:.3e}")
 
     # ---- How much of the discrepancy is the boundary? ----------------------
@@ -179,7 +180,9 @@ def main() -> dict[str, Any]:
     boundary_contamination = float(
         np.max(np.abs(final_sealed - final_infinite))
     )
-    sigma_final = float(np.sqrt(GAUSSIAN_SIGMA0_CM**2 + 2.0 * D * DIFFUSION_DURATION_MS))
+    sigma_final = float(
+        np.sqrt(GAUSSIAN_SIGMA0_CM**2 + 2.0 * D * DIFFUSION_DURATION_MS)
+    )
     print(
         f"  boundary     sigma(T) = {sigma_final:.4f} cm "
         f"({(config.grid.length_cm / 2.0) / sigma_final:.1f} sigma to each end)"

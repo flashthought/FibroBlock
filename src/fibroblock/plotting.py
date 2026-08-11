@@ -299,7 +299,9 @@ def annotate_takeaway(ax: plt.Axes, text: str, loc: str = "upper left") -> None:
         "lower right": (0.97, 0.03, "right", "bottom"),
     }
     if loc not in positions:
-        raise ValueError(f"Unknown location {loc!r}; expected one of {sorted(positions)}")
+        raise ValueError(
+            f"Unknown location {loc!r}; expected one of {sorted(positions)}"
+        )
 
     x, y, ha, va = positions[loc]
     ax.text(

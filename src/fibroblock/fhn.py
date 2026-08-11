@@ -1,4 +1,4 @@
-"""FitzHugh-Nagumo kinetics and every analytic result derived from them.
+r"""FitzHugh-Nagumo kinetics and every analytic result derived from them.
 
 Nothing in this module is hard-coded from the assignment brief. The rest state,
 the Jacobian, the bistable roots and the analytic conduction-velocity prefactor
@@ -9,8 +9,8 @@ used *only* by the tests, to check agreement.
 The kinetics are
 
 .. math::
-    f(V, w) &= V - \\tfrac{1}{3} V^{3} - w + I_{\\text{stim}} \\\\
-    g(V, w) &= \\varepsilon \\, (V + a - b w)
+    f(V, w) &= V - \tfrac{1}{3} V^{3} - w + I_{\text{stim}} \\
+    g(V, w) &= \varepsilon \, (V + a - b w)
 
 References
 ----------
@@ -47,9 +47,9 @@ def reaction_f(
     w: np.ndarray | float,
     i_stim: np.ndarray | float = 0.0,
 ) -> np.ndarray | float:
-    """Fast (voltage) kinetics of the FitzHugh-Nagumo system.
+    r"""Fast (voltage) kinetics of the FitzHugh-Nagumo system.
 
-    .. math:: f(V, w) = V - \\frac{V^{3}}{3} - w + I_{\\text{stim}}
+    .. math:: f(V, w) = V - \frac{V^{3}}{3} - w + I_{\text{stim}}
 
     Parameters
     ----------
@@ -79,9 +79,9 @@ def recovery_g(
     w: np.ndarray | float,
     params: FHNParams,
 ) -> np.ndarray | float:
-    """Slow (recovery) kinetics of the FitzHugh-Nagumo system.
+    r"""Slow (recovery) kinetics of the FitzHugh-Nagumo system.
 
-    .. math:: g(V, w) = \\varepsilon \\, (V + a - b w)
+    .. math:: g(V, w) = \varepsilon \, (V + a - b w)
 
     Parameters
     ----------
@@ -113,12 +113,12 @@ def recovery_g(
 
 
 def rest_cubic_coefficients(params: FHNParams) -> np.ndarray:
-    """Coefficients of the polynomial whose real root is the rest potential.
+    r"""Coefficients of the polynomial whose real root is the rest potential.
 
     Setting both derivatives to zero gives ``w* = (V* + a) / b``. Substituting
     that into ``f(V*, w*) = 0`` and multiplying through by ``-3`` gives
 
-    .. math:: V^{3} + \\left(\\frac{3}{b} - 3\\right) V + \\frac{3a}{b} = 0
+    .. math:: V^{3} + \left(\frac{3}{b} - 3\right) V + \frac{3a}{b} = 0
 
     which for the assignment values ``a = 0.7``, ``b = 0.8`` is
     ``V^3 + 0.75 V + 2.625 = 0``.
@@ -222,11 +222,11 @@ def rest_state(params: FHNParams) -> tuple[float, float]:
 
 
 def jacobian(V: float, params: FHNParams) -> np.ndarray:
-    """Jacobian of the space-clamped FitzHugh-Nagumo system at potential ``V``.
+    r"""Jacobian of the space-clamped FitzHugh-Nagumo system at potential ``V``.
 
     .. math::
-        J = \\begin{bmatrix} 1 - V^{2} & -1 \\\\
-                             \\varepsilon & -\\varepsilon b \\end{bmatrix}
+        J = \begin{bmatrix} 1 - V^{2} & -1 \\
+                             \varepsilon & -\varepsilon b \end{bmatrix}
 
     Parameters
     ----------
@@ -408,10 +408,10 @@ def bistable_roots_at(w_frozen: float) -> tuple[float, float, float]:
 
 
 def front_speed_prefactor_at(w_frozen: float) -> float:
-    """Front-speed prefactor for an arbitrary frozen recovery value.
+    r"""Front-speed prefactor for an arbitrary frozen recovery value.
 
-    .. math:: \\frac{\\theta}{\\sqrt{D}}
-              = \\sqrt{\\tfrac{A}{2}}\\,(V_1 - 2V_2 + V_3), \\qquad A = \\tfrac13
+    .. math:: \frac{\theta}{\sqrt{D}}
+              = \sqrt{\tfrac{A}{2}}\,(V_1 - 2V_2 + V_3), \qquad A = \tfrac13
 
     Parameters
     ----------
@@ -477,17 +477,17 @@ def bistable_roots(params: FHNParams) -> tuple[float, float, float]:
 
 
 def analytic_cv_prefactor(params: FHNParams) -> float:
-    """Prefactor in the analytic front speed ``theta = prefactor * sqrt(D)``.
+    r"""Prefactor in the analytic front speed ``theta = prefactor * sqrt(D)``.
 
     Writing the frozen-``w`` reaction term in factored form
 
     .. math:: f(V, w^{*}) = -A (V - V_1)(V - V_2)(V - V_3),
-              \\qquad A = \\tfrac{1}{3}
+              \qquad A = \tfrac{1}{3}
 
     the classical bistable travelling-front solution of
     ``V_t = D V_xx + f`` has speed
 
-    .. math:: \\theta = \\sqrt{\\tfrac{A}{2}}\\,(V_1 - 2 V_2 + V_3)\\,\\sqrt{D}
+    .. math:: \theta = \sqrt{\tfrac{A}{2}}\,(V_1 - 2 V_2 + V_3)\,\sqrt{D}
 
     Parameters
     ----------
@@ -526,9 +526,9 @@ def analytic_cv_prefactor(params: FHNParams) -> float:
 
 
 def analytic_cv(D: float, params: FHNParams) -> float:
-    """Analytic conduction velocity at a given diffusion coefficient.
+    r"""Analytic conduction velocity at a given diffusion coefficient.
 
-    .. math:: \\theta = \\left[\\sqrt{A/2}\\,(V_1 - 2V_2 + V_3)\\right] \\sqrt{D}
+    .. math:: \theta = \left[\sqrt{A/2}\,(V_1 - 2V_2 + V_3)\right] \sqrt{D}
 
     Parameters
     ----------
@@ -562,9 +562,9 @@ def analytic_cv(D: float, params: FHNParams) -> float:
 
 
 def front_thickness(D: float, params: FHNParams, f_v_bound: float) -> float:
-    """Characteristic thickness of the propagating wavefront.
+    r"""Characteristic thickness of the propagating wavefront.
 
-    .. math:: \\delta \\sim \\sqrt{D / |f_V|_{\\max}}
+    .. math:: \delta \sim \sqrt{D / |f_V|_{\max}}
 
     Parameters
     ----------

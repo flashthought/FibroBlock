@@ -140,7 +140,7 @@ def delivered_charge(stimulus: StimulusParams) -> float:
 
 
 def bisect_threshold(
-    succeeds: "callable[[float], bool]",
+    succeeds: callable[[float], bool],
     lower: float,
     upper: float,
     tolerance: float,

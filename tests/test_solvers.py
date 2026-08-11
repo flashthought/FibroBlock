@@ -14,7 +14,6 @@ from fibroblock import config as cfg
 from fibroblock import grid as gridmod
 from fibroblock import operators, simulate, solvers
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------

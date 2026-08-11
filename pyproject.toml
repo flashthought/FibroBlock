@@ -104,13 +104,25 @@ select = [
     "NPY",  # NumPy-specific rules
 ]
 ignore = [
+    # --- Mathematical naming -------------------------------------------------
     # Mathematical code legitimately uses single-capital names such as V, D, J
     # to match the equations in the report. Renaming them to "voltage" or
     # "diffusion_coefficient" everywhere would make the code HARDER to check
-    # against the derivation, which is the opposite of what we want.
+    # against the derivation, which is the opposite of what we want. The same
+    # applies to identifiers that embed a symbol: `baseline_D`, `D_max`,
+    # `final_V`, `run_for_D`, and test names such as
+    # `test_analytic_cv_scales_as_sqrt_D`.
     "N803",  # argument name should be lowercase
     "N806",  # variable in function should be lowercase
-    # D203/D213 conflict with the numpy docstring convention selected below.
+    "N815",  # mixedCase variable in class scope (e.g. GridParams.baseline_D)
+    # --- Deliberate emphasis in test names ------------------------------------
+    # A few test names shout on purpose, because they are negative controls and
+    # the capital is the point: `test_uniform_weights_would_NOT_conserve_charge`,
+    # `test_r_squared_is_a_weak_detector_of_MILD_curvature`. Renaming them would
+    # lose the signal that these tests assert the OPPOSITE of the happy path.
+    "N802",  # function name should be lowercase
+    # --- Docstring convention -------------------------------------------------
+    # D203/D213 conflict with the numpy convention selected below.
     "D203",
     "D213",
 ]

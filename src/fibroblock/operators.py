@@ -1,11 +1,11 @@
-"""The conservative diffusion operator, with sealed (no-flux) ends.
+r"""The conservative diffusion operator, with sealed (no-flux) ends.
 
 This module contains the single most important piece of numerics in the
 project: the discretisation of
 
-.. math:: \\nabla \\cdot (D(x) \\nabla V)
-          \\quad\\longrightarrow\\quad
-          \\frac{\\partial}{\\partial x}\\!\\left(D(x) \\frac{\\partial V}{\\partial x}\\right)
+.. math:: \nabla \cdot (D(x) \nabla V)
+          \quad\longrightarrow\quad
+          \frac{\partial}{\partial x}\!\left(D(x) \frac{\partial V}{\partial x}\right)
 
 in **conservative (flux) form**, never as ``D(x) * d2V/dx2``.
 
@@ -27,18 +27,18 @@ Discretisation
 --------------
 Flux at the interface between nodes ``j`` and ``j+1``:
 
-.. math:: F_{j+1/2} = D_{j+1/2}\\,\\frac{V_{j+1} - V_j}{\\Delta x}
+.. math:: F_{j+1/2} = D_{j+1/2}\,\frac{V_{j+1} - V_j}{\Delta x}
 
 Interior node update:
 
-.. math:: \\mathcal{L}(V)_j = \\frac{F_{j+1/2} - F_{j-1/2}}{\\Delta x}
-    = \\frac{D_{j+1/2}(V_{j+1}-V_j) - D_{j-1/2}(V_j - V_{j-1})}{\\Delta x^{2}}
+.. math:: \mathcal{L}(V)_j = \frac{F_{j+1/2} - F_{j-1/2}}{\Delta x}
+    = \frac{D_{j+1/2}(V_{j+1}-V_j) - D_{j-1/2}(V_j - V_{j-1})}{\Delta x^{2}}
 
 Sealed ends by ghost nodes: reflecting ``V_{-1} = V_1`` and
 ``D_{-1/2} = D_{1/2}`` into the interior formula collapses the left-end update
 to
 
-.. math:: \\mathcal{L}(V)_0 = \\frac{2 D_{1/2}(V_1 - V_0)}{\\Delta x^{2}}
+.. math:: \mathcal{L}(V)_0 = \frac{2 D_{1/2}(V_1 - V_0)}{\Delta x^{2}}
 
 and the mirror image holds at the right end.
 """
@@ -49,9 +49,9 @@ import numpy as np
 
 
 def interface_flux(V: np.ndarray, D_half: np.ndarray, dx: float) -> np.ndarray:
-    """Diffusive flux at every interior interface.
+    r"""Diffusive flux at every interior interface.
 
-    .. math:: F_{j+1/2} = D_{j+1/2}\\,\\frac{V_{j+1} - V_j}{\\Delta x}
+    .. math:: F_{j+1/2} = D_{j+1/2}\,\frac{V_{j+1} - V_j}{\Delta x}
 
     Parameters
     ----------
@@ -242,16 +242,16 @@ def analytic_gaussian(
     sigma0: float,
     amplitude: float = 1.0,
 ) -> np.ndarray:
-    """Closed-form solution of pure diffusion from a Gaussian initial condition.
+    r"""Closed-form solution of pure diffusion from a Gaussian initial condition.
 
     For ``V_t = D V_xx`` on the infinite line with
     ``V(x, 0) = A exp(-(x - x0)^2 / (2 sigma0^2))``, the solution stays Gaussian
     and simply spreads:
 
     .. math::
-        V(x, t) = A \\frac{\\sigma_0}{\\sigma(t)}
-                  \\exp\\!\\left(-\\frac{(x - x_0)^{2}}{2\\sigma(t)^{2}}\\right),
-        \\qquad \\sigma(t)^{2} = \\sigma_0^{2} + 2 D t
+        V(x, t) = A \frac{\sigma_0}{\sigma(t)}
+                  \exp\!\left(-\frac{(x - x_0)^{2}}{2\sigma(t)^{2}}\right),
+        \qquad \sigma(t)^{2} = \sigma_0^{2} + 2 D t
 
     Parameters
     ----------
@@ -317,7 +317,7 @@ def analytic_gaussian_sealed(
     amplitude: float = 1.0,
     n_images: int = 4,
 ) -> np.ndarray:
-    """Exact pure-diffusion solution on a **sealed** strand, by method of images.
+    r"""Exact pure-diffusion solution on a **sealed** strand, by method of images.
 
     :func:`analytic_gaussian` solves the problem on the infinite line, so it
     slowly stops matching a sealed strand as the profile reaches the ends. The
@@ -325,9 +325,9 @@ def analytic_gaussian_sealed(
     reflected in both boundaries:
 
     .. math::
-        V(x, t) = \\sum_{n=-\\infty}^{\\infty}
-            \\Big[ G\\big(x - (x_0 + 2nL)\\big)
-                 + G\\big(x - (-x_0 + 2nL)\\big) \\Big]
+        V(x, t) = \sum_{n=-\infty}^{\infty}
+            \Big[ G\big(x - (x_0 + 2nL)\big)
+                 + G\big(x - (-x_0 + 2nL)\big) \Big]
 
     with ``G(u) = A (sigma_0/sigma) exp(-u^2 / 2 sigma^2)`` and
     ``sigma^2 = sigma_0^2 + 2 D t``.
@@ -406,9 +406,9 @@ def analytic_gaussian_sealed(
 
 
 def uniform_second_difference(V: np.ndarray, D: float, dx: float) -> np.ndarray:
-    """Plain constant-coefficient second difference, for cross-checking only.
+    r"""Plain constant-coefficient second difference, for cross-checking only.
 
-    .. math:: D \\frac{V_{j-1} - 2 V_j + V_{j+1}}{\\Delta x^{2}}
+    .. math:: D \frac{V_{j-1} - 2 V_j + V_{j+1}}{\Delta x^{2}}
 
     with the same reflecting-ghost treatment at the ends.
 

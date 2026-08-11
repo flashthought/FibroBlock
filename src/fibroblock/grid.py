@@ -56,13 +56,13 @@ def diffusion_profile(
     grid: GridParams,
     gap: GapParams,
 ) -> np.ndarray:
-    """Evaluate the piecewise-constant diffusion coefficient at each node.
+    r"""Evaluate the piecewise-constant diffusion coefficient at each node.
 
     .. math::
-        D(x) = \\begin{cases}
-            \\rho D_0 & x_{gap} \\le x \\le x_{gap} + L_{gap} \\\\
-            D_0       & \\text{otherwise}
-        \\end{cases}
+        D(x) = \begin{cases}
+            \rho D_0 & x_{gap} \le x \le x_{gap} + L_{gap} \\
+            D_0       & \text{otherwise}
+        \end{cases}
 
     Parameters
     ----------
@@ -110,9 +110,9 @@ def diffusion_profile(
 
 
 def harmonic_mean(left: np.ndarray, right: np.ndarray) -> np.ndarray:
-    """Harmonic mean of adjacent diffusion coefficients.
+    r"""Harmonic mean of adjacent diffusion coefficients.
 
-    .. math:: D_{j+1/2} = \\frac{2 D_j D_{j+1}}{D_j + D_{j+1}}
+    .. math:: D_{j+1/2} = \frac{2 D_j D_{j+1}}{D_j + D_{j+1}}
 
     Parameters
     ----------
@@ -155,9 +155,9 @@ def harmonic_mean(left: np.ndarray, right: np.ndarray) -> np.ndarray:
 
 
 def arithmetic_mean(left: np.ndarray, right: np.ndarray) -> np.ndarray:
-    """Arithmetic mean of adjacent diffusion coefficients.
+    r"""Arithmetic mean of adjacent diffusion coefficients.
 
-    .. math:: D_{j+1/2} = \\tfrac{1}{2}(D_j + D_{j+1})
+    .. math:: D_{j+1/2} = \tfrac{1}{2}(D_j + D_{j+1})
 
     Parameters
     ----------
@@ -286,7 +286,7 @@ class Grid:
 
 
 def trapezoidal_weights(n_nodes: int, dx: float) -> np.ndarray:
-    """Quadrature weights for integrating a nodal field over the strand.
+    r"""Quadrature weights for integrating a nodal field over the strand.
 
     Parameters
     ----------
@@ -312,7 +312,7 @@ def trapezoidal_weights(n_nodes: int, dx: float) -> np.ndarray:
     half the width, because half of their control volume lies outside the
     domain. With these weights the total charge
 
-    .. math:: Q = \\sum_j w_j V_j
+    .. math:: Q = \sum_j w_j V_j
 
     is conserved to machine precision by the no-flux operator. With uniform
     weights it is not: the residual is exactly the spurious flux implied by

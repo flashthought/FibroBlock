@@ -15,7 +15,6 @@ import pytest
 from fibroblock import config as cfg
 from fibroblock import measure, simulate
 
-
 # ---------------------------------------------------------------------------
 # Conduction velocity from a synthetic activation map
 # ---------------------------------------------------------------------------
@@ -220,7 +219,11 @@ def test_l2_error_is_grid_independent() -> None:
             cfg.GapParams(rho=1.0, gap_length_cm=0.0),
         )
         error_field = np.sin(np.pi * g.x)
-        norms.append(measure.l2_error(error_field, np.zeros_like(error_field), g.quadrature_weights))
+        norms.append(
+            measure.l2_error(
+                error_field, np.zeros_like(error_field), g.quadrature_weights
+            )
+        )
         unweighted.append(float(np.sqrt(np.sum(error_field**2))))
 
     # Weighted norm converges to sqrt(integral sin^2) = sqrt(1/2).

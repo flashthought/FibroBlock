@@ -46,7 +46,14 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from fibroblock import config as cfg  # noqa: E402
-from fibroblock import measure, operators, plotting, simulate, solvers, utils  # noqa: E402
+from fibroblock import (  # noqa: E402
+    measure,
+    operators,
+    plotting,
+    simulate,
+    solvers,
+    utils,
+)
 
 # --- Study 1: spatial order against the exact Gaussian ----------------------
 DIFFUSION_SPACINGS_CM: tuple[float, ...] = (0.04, 0.02, 0.01, 0.005, 0.0025)
@@ -121,7 +128,13 @@ def main() -> dict[str, Any]:
         )
         x = np.linspace(0.0, length, config.grid.n_nodes)
         initial_V = operators.analytic_gaussian_sealed(
-            x, 0.0, D, GAUSSIAN_CENTRE_CM, GAUSSIAN_SIGMA0_CM, length, GAUSSIAN_AMPLITUDE
+            x,
+            0.0,
+            D,
+            GAUSSIAN_CENTRE_CM,
+            GAUSSIAN_SIGMA0_CM,
+            length,
+            GAUSSIAN_AMPLITUDE,
         )
         result = simulate.run_simulation(
             config,
@@ -336,9 +349,11 @@ def main() -> dict[str, Any]:
             f"          dt = {dt:>8.5f} ms   Euler L2 = {e_err:.4e}   "
             f"RK4 L2 = {r_err:.4e}"
         )
-    print(f"          Euler pairwise: {np.array2string(smooth['euler_pairwise'], precision=3)}")
+    euler_pairwise_text = np.array2string(smooth["euler_pairwise"], precision=3)
+    print(f"          Euler pairwise: {euler_pairwise_text}")
     print(f"          Euler fitted order: {smooth['euler_order']:.4f}   (expected 1)")
-    print(f"          RK4   pairwise: {np.array2string(smooth['rk4_pairwise'], precision=3)}")
+    rk4_pairwise_text = np.array2string(smooth["rk4_pairwise"], precision=3)
+    print(f"          RK4   pairwise: {rk4_pairwise_text}")
     print(f"          RK4   fitted order: {smooth['rk4_order']:.4f}   (expected 4)")
 
     steps = np.array(TEMPORAL_DT_MS)

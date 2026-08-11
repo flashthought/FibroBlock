@@ -24,16 +24,36 @@ cross it?** That patch is the model of a fibrotic region — hence *FibroBlock*.
 
 The headline results are:
 
-| Quantity | Value |
+| Quantity | Result |
 |---|---|
 | Rest state | `V* = -1.199408`, `w* = -0.624260` |
-| Rest-state stability | stable spiral (`tr J < 0`, `det J > 0`) — excitable, not oscillatory |
-| Explicit-Euler stability limit | `Δt ≤ 0.04651 ms` (reaction–diffusion), vs `0.05 ms` if diffusion alone is considered |
-| Analytic conduction velocity | `θ = 0.9634 √D` → `30.5 cm/s` at `D = 0.001 cm²/ms` |
-| Block threshold | a **surface** in `(L_gap, ρ)`, not a single critical coupling ratio |
+| Rest-state stability | **stable spiral** (`tr J = -0.5026`, `det J = +0.1081`) — excitable, not oscillatory |
+| Explicit-Euler stability limit | `Δt ≤ 0.046512 ms`; the diffusion-only estimate `0.05 ms` is **7.5 % too optimistic** |
+| Conduction velocity scaling | `θ ∝ √D`, measured exponent **0.49996**; `θ/√D` flat to **0.02 %** |
+| Measured vs analytic velocity | 25.5 vs 30.5 cm/s — a **16 % deficit that is physical, not numerical** (see below) |
+| Block threshold | a **curve** in `(L_gap, ρ)`: 0.067 → 0.157, saturating past 0.1 cm |
+| Conduction delay | **saturates at 16 ms — it does not diverge** |
 
 Every one of those numbers is computed from the parameters at run time. None is
 hard-coded, and each is covered by an automated test.
+
+### Three results worth reading the code for
+
+1. **The velocity deficit is physical.** The measured prefactor is 0.807
+   against the analytic 0.963. Grid refinement to `Δx = 0.00125 cm` leaves only
+   0.52 % discretisation error, so the gap survives refinement. The analytic
+   derivation freezes the recovery variable at rest; `w` has actually risen to
+   −0.591 by the time the front passes. Substituting the measured value closes
+   the gap to 7 %.
+
+2. **The delay does not diverge.** A `(ρ − ρ_crit)^(−1/2)` divergence was
+   expected. Measured over six decades of approach, the excess delay saturates
+   at 16 ms: a stalled front cannot outlast its own upstream source, which
+   repolarises on the recovery timescale `1/ε`.
+
+3. **The averaging scheme is not a free choice.** With the arithmetic mean, a
+   single-node gap **cannot be blocked at any coupling ratio at all**, because
+   its interface conductance tends to `D₀/2` rather than to zero as `ρ → 0`.
 
 ---
 
@@ -58,10 +78,16 @@ On Linux or macOS the only change is the activation line:
 source .venv/bin/activate
 ```
 
-`make_all_figures.py` deletes and rebuilds `figures/` and `results/` from
-empty, runs all eight experiments in order, and prints a timing summary. It
-takes a few minutes. `pytest` then re-checks every analytic result the report
-claims.
+`make_all_figures.py` deletes and rebuilds `figures/`, `results/` and
+`report/figures/` from empty, runs all eight experiments in order, and prints a
+timing summary. **It takes roughly 6–10 minutes** (measured 6 m 15 s and
+9 m 14 s on two runs of the same machine; ex06, ex07 and ex08 dominate, and each
+runs hundreds of bisection simulations). `pytest` then re-checks
+every analytic result the report claims — **93 tests, no skips.**
+
+Deleting first is the point: if the directories were merely overwritten, a
+figure whose generating code had been removed would survive from an earlier run,
+and you would be looking at output the current code cannot produce.
 
 If you have GNU make available, `make all` does both steps.
 

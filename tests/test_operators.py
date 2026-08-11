@@ -14,7 +14,6 @@ from fibroblock import grid as gridmod
 from fibroblock import operators as ops
 from fibroblock.config import GapParams, GridParams
 
-
 # ---------------------------------------------------------------------------
 # Helpers used by several tests
 # ---------------------------------------------------------------------------

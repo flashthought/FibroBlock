@@ -1,4 +1,4 @@
-"""Experiment 5: does conduction velocity really scale as the square root of D?
+"""Experiment 5: testing whether conduction velocity scales as the square root of D.
 
 Question
 --------
@@ -74,7 +74,7 @@ SNAPSHOTS_PER_MS: float = 10.0
 
 
 def duration_for(D: float, length_cm: float) -> float:
-    """Simulated time needed for the wave to clear the velocity fit window.
+    """Compute the simulated time needed to clear the velocity fit window.
 
     Parameters
     ----------

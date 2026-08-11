@@ -43,14 +43,14 @@ ActivationRule = Literal["v_zero_crossing", "max_dvdt"]
 
 @dataclass(frozen=True)
 class FHNParams:
-    """FitzHugh-Nagumo reaction kinetics parameters.
+    r"""FitzHugh-Nagumo reaction kinetics parameters.
 
     The kinetics are
 
     .. math::
-        f(V, w) = V - \\tfrac{1}{3} V^{3} - w + I_{\\text{stim}}
-        \\qquad
-        g(V, w) = \\varepsilon\\,(V + a - b w)
+        f(V, w) = V - \tfrac{1}{3} V^{3} - w + I_{\text{stim}}
+        \qquad
+        g(V, w) = \varepsilon\,(V + a - b w)
 
     Attributes
     ----------
@@ -167,13 +167,13 @@ class GridParams:
 
 @dataclass(frozen=True)
 class GapParams:
-    """The reduced-coupling gap that models a fibrotic patch.
+    r"""The reduced-coupling gap that models a fibrotic patch.
 
     The diffusion profile is piecewise constant:
 
     .. math::
-        D(x) = \\rho D_0 \\ \\text{for}\\ x \\in [x_{gap},\\, x_{gap}+L_{gap}],
-        \\qquad D(x) = D_0 \\ \\text{otherwise}
+        D(x) = \rho D_0 \ \text{for}\ x \in [x_{gap},\, x_{gap}+L_{gap}],
+        \qquad D(x) = D_0 \ \text{otherwise}
 
     Attributes
     ----------

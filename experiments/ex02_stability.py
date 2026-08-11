@@ -40,7 +40,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from fibroblock import config as cfg  # noqa: E402
 from fibroblock import grid as gridmod  # noqa: E402
-from fibroblock import operators, plotting, simulate, solvers, stimulus, utils  # noqa: E402
+from fibroblock import (  # noqa: E402
+    operators,
+    plotting,
+    simulate,
+    solvers,
+    stimulus,
+    utils,
+)
 
 # Short run: an unstable step blows up within a few milliseconds, and a stable
 # one only needs long enough to show a clean front. Neither needs 300 ms.
@@ -198,7 +205,8 @@ def main() -> dict[str, Any]:
         f"  -> diverged = {stable.diverged}"
     )
     print(
-        f"  dt = {UNSTABLE_FRACTION:.2f} x limit = {UNSTABLE_FRACTION * dt_limit:.6f} ms"
+        f"  dt = {UNSTABLE_FRACTION:.2f} x limit = "
+        f"{UNSTABLE_FRACTION * dt_limit:.6f} ms"
         f"  -> diverged = {unstable.diverged}"
         + (
             f" at t = {unstable.divergence_time_ms:.3f} ms"
@@ -325,7 +333,9 @@ def main() -> dict[str, Any]:
     snapshot_magnitudes = np.max(np.abs(unstable.V_snapshots), axis=1)
     beyond_display = np.flatnonzero(snapshot_magnitudes > DISPLAY_MAGNITUDE)
     display_index = (
-        int(beyond_display[0]) if beyond_display.size > 0 else len(snapshot_magnitudes) - 1
+        int(beyond_display[0])
+        if beyond_display.size > 0
+        else len(snapshot_magnitudes) - 1
     )
     display_V = unstable.V_snapshots[display_index]
     display_time = float(unstable.snapshot_times[display_index])

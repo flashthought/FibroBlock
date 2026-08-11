@@ -1,0 +1,70 @@
+{
+  "stages": [
+    {
+      "name": "ex01_single_cell",
+      "seconds": 4.590344499999901,
+      "figures": 1,
+      "succeeded": true
+    },
+    {
+      "name": "ex02_stability",
+      "seconds": 2.9686097999999674,
+      "figures": 1,
+      "succeeded": true
+    },
+    {
+      "name": "ex03_convergence",
+      "seconds": 44.65512629999989,
+      "figures": 1,
+      "succeeded": true
+    },
+    {
+      "name": "ex04_pure_diffusion",
+      "seconds": 2.139540800000077,
+      "figures": 1,
+      "succeeded": true
+    },
+    {
+      "name": "ex05_cv_vs_D",
+      "seconds": 11.916025799999943,
+      "figures": 1,
+      "succeeded": true
+    },
+    {
+      "name": "ex06_block_threshold",
+      "seconds": 136.37930859999983,
+      "figures": 1,
+      "succeeded": true
+    },
+    {
+      "name": "ex07_conduction_delay",
+      "seconds": 146.9704681999999,
+      "figures": 1,
+      "succeeded": true
+    },
+    {
+      "name": "ex08_sensitivity",
+      "seconds": 113.97405879999997,
+      "figures": 1,
+      "succeeded": true
+    }
+  ],
+  "total_seconds": 463.9533566,
+  "report_figure_files_copied": 16,
+  "generated_utc": "2026-08-11T10:30:33Z",
+  "git_commit": "e67ad5293860809d8d50018c8977bad271b3d3d7-dirty",
+  "libraries": {
+    "fibroblock": "1.0.0",
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.1"
+  },
+  "platform": {
+    "system": "Windows",
+    "release": "10",
+    "version": "10.0.26200",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD"
+  }
+}

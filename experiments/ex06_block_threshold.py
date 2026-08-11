@@ -1,4 +1,4 @@
-"""Experiment 6: where is the conduction-block threshold?
+"""Experiment 6: locating the conduction-block threshold.
 
 Question
 --------
@@ -260,7 +260,8 @@ def main() -> dict[str, Any]:
     shortest = float(finite_harmonic[0])
     print(
         f"  threshold rises from {shortest:.5f} at L_gap = {harmonic_L[0]:.2f} cm "
-        f"to {saturated:.5f} asymptotically ({100.0 * (saturated / shortest - 1.0):.1f} % rise)"
+        f"to {saturated:.5f} asymptotically "
+        f"({100.0 * (saturated / shortest - 1.0):.1f} % rise)"
     )
 
     # ---- Two runs bracketing the threshold, for the space-time maps --------
@@ -468,7 +469,8 @@ def main() -> dict[str, Any]:
     caption = (
         f"The conduction-block threshold is a curve in the (L_gap, rho) plane, "
         f"not a single critical coupling ratio: a single-node gap blocks only "
-        f"below rho = {shortest:.4f}, rising {100.0 * (saturated / shortest - 1.0):.0f} % "
+        f"below rho = {shortest:.4f}, rising "
+        f"{100.0 * (saturated / shortest - 1.0):.0f} % "
         f"to rho = {saturated:.4f} and then saturating beyond about 0.1 cm. The "
         f"saturation is itself informative -- once the gap is longer than the "
         f"distance over which failure develops, whether the wave survives "

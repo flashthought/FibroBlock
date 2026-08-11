@@ -14,7 +14,6 @@ import numpy as np
 from fibroblock.config import MeasurementParams, RunConfig
 from fibroblock.simulate import SimulationResult
 
-
 # ---------------------------------------------------------------------------
 # Conduction velocity
 # ---------------------------------------------------------------------------
@@ -67,11 +66,11 @@ def fit_conduction_velocity(
     length_cm: float,
     rule: str = "v_zero_crossing",
 ) -> VelocityFit:
-    """Fit conduction velocity over the steady-propagation window.
+    r"""Fit conduction velocity over the steady-propagation window.
 
     Activation time should be linear in distance once the wave has settled:
 
-    .. math:: t_{\\text{act}}(x) = \\frac{x}{\\theta} + t_0
+    .. math:: t_{\text{act}}(x) = \frac{x}{\theta} + t_0
 
     so a straight-line fit of ``t`` against ``x`` gives ``theta = 1 / slope``.
 
@@ -496,9 +495,9 @@ def measure_delay(
 def l2_error(
     computed: np.ndarray, exact: np.ndarray, quadrature_weights: np.ndarray
 ) -> float:
-    """Grid-independent L2 norm of the error.
+    r"""Grid-independent L2 norm of the error.
 
-    .. math:: \\|e\\|_2 = \\sqrt{\\sum_j w_j (u_j - u^{\\text{exact}}_j)^{2}}
+    .. math:: \|e\|_2 = \sqrt{\sum_j w_j (u_j - u^{\text{exact}}_j)^{2}}
 
     Parameters
     ----------
@@ -547,11 +546,11 @@ def linf_error(computed: np.ndarray, exact: np.ndarray) -> float:
 def observed_order(
     resolutions: np.ndarray, errors: np.ndarray
 ) -> tuple[np.ndarray, float]:
-    """Observed order of accuracy from a refinement sequence.
+    r"""Observed order of accuracy from a refinement sequence.
 
     Between consecutive grids,
 
-    .. math:: p = \\frac{\\log(e_1 / e_2)}{\\log(h_1 / h_2)}
+    .. math:: p = \frac{\log(e_1 / e_2)}{\log(h_1 / h_2)}
 
     and the overall order is the slope of a straight line fitted to
     ``log e`` against ``log h``.

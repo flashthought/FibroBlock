@@ -1,4 +1,4 @@
-"""Hand-coded explicit time integrators and the analytic stability limit.
+r"""Hand-coded explicit time integrators and the analytic stability limit.
 
 Why the integrators are hand-coded
 ----------------------------------
@@ -12,34 +12,34 @@ only as an accuracy comparison.
 Von Neumann stability analysis
 ------------------------------
 Linearise the reaction-diffusion system about a state where
-``df/dV = f_V`` and substitute a Fourier mode ``V_j^n = g^n e^{i k j \\Delta x}``
+``df/dV = f_V`` and substitute a Fourier mode ``V_j^n = g^n e^{i k j \Delta x}``
 into the explicit-Euler update
 
 .. math::
-    V_j^{n+1} = V_j^n + \\Delta t \\left[
-        \\frac{D (V_{j+1}^n - 2V_j^n + V_{j-1}^n)}{\\Delta x^{2}} + f_V V_j^n
-    \\right]
+    V_j^{n+1} = V_j^n + \Delta t \left[
+        \frac{D (V_{j+1}^n - 2V_j^n + V_{j-1}^n)}{\Delta x^{2}} + f_V V_j^n
+    \right]
 
 The second difference of the Fourier mode gives a factor
 ``2(cos(k dx) - 1) = -4 sin^2(k dx / 2)``, so the amplification factor is
 
 .. math::
-    g(k) = 1 + \\Delta t\\left[-\\frac{4D}{\\Delta x^{2}}
-           \\sin^{2}\\!\\left(\\frac{k \\Delta x}{2}\\right) + f_V\\right]
+    g(k) = 1 + \Delta t\left[-\frac{4D}{\Delta x^{2}}
+           \sin^{2}\!\left(\frac{k \Delta x}{2}\right) + f_V\right]
 
 Stability requires ``|g| <= 1`` for every mode. The binding constraint is
 ``g >= -1``, and the worst case is the mode that maximises the bracket's
 magnitude: ``sin^2 = 1``, i.e. ``k dx / 2 = pi / 2``, which is
 
-.. math:: k = \\frac{\\pi}{\\Delta x}
+.. math:: k = \frac{\pi}{\Delta x}
 
 the **checkerboard mode**, alternating sign from node to node -- the shortest
 wavelength the grid can represent. Imposing ``g(pi/dx) >= -1`` with the worst
-reaction contribution ``|f_V|_{\\max}`` gives
+reaction contribution ``|f_V|_{\max}`` gives
 
 .. math::
-    \\boxed{\\Delta t \\le \\frac{2}{\\dfrac{4 D_{\\max}}{\\Delta x^{2}}
-            + |f_V|_{\\max}}}
+    \boxed{\Delta t \le \frac{2}{\dfrac{4 D_{\max}}{\Delta x^{2}}
+            + |f_V|_{\max}}}
 
 Ignoring the reaction term entirely gives the familiar pure-diffusion limit
 ``dt <= dx^2 / (2D)``, which is **too optimistic**: at the assignment's values
@@ -105,9 +105,9 @@ class StabilityLimits:
 
 
 def explicit_euler_dt_limit(D_max: float, dx: float, f_v_bound: float) -> float:
-    """Explicit-Euler stability limit for the reaction-diffusion system.
+    r"""Explicit-Euler stability limit for the reaction-diffusion system.
 
-    .. math:: \\Delta t \\le \\frac{2}{4 D_{\\max}/\\Delta x^{2} + |f_V|_{\\max}}
+    .. math:: \Delta t \le \frac{2}{4 D_{\max}/\Delta x^{2} + |f_V|_{\max}}
 
     Parameters
     ----------
@@ -164,9 +164,9 @@ def explicit_euler_dt_limit(D_max: float, dx: float, f_v_bound: float) -> float:
 
 
 def pure_diffusion_dt_limit(D_max: float, dx: float) -> float:
-    """Stability limit if the reaction term is (incorrectly) ignored.
+    r"""Stability limit if the reaction term is (incorrectly) ignored.
 
-    .. math:: \\Delta t \\le \\frac{\\Delta x^{2}}{2 D_{\\max}}
+    .. math:: \Delta t \le \frac{\Delta x^{2}}{2 D_{\max}}
 
     Parameters
     ----------
@@ -244,7 +244,7 @@ def stability_limits(
 
 
 def checkerboard_mode(n_nodes: int, amplitude: float = 1.0) -> np.ndarray:
-    """The most unstable Fourier mode, ``k = pi / dx``.
+    """Build the most unstable Fourier mode, ``k = pi / dx``.
 
     Parameters
     ----------
@@ -309,9 +309,9 @@ def euler_step(
     dt: float,
     rhs: RHSFunction,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Advance one step with explicit (forward) Euler.
+    r"""Advance one step with explicit (forward) Euler.
 
-    .. math:: y^{n+1} = y^{n} + \\Delta t \\, F(t^{n}, y^{n})
+    .. math:: y^{n+1} = y^{n} + \Delta t \, F(t^{n}, y^{n})
 
     Parameters
     ----------
@@ -348,14 +348,14 @@ def rk4_step(
     dt: float,
     rhs: RHSFunction,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Advance one step with the classical fourth-order Runge-Kutta method.
+    r"""Advance one step with the classical fourth-order Runge-Kutta method.
 
     .. math::
-        k_1 &= F(t, y) \\\\
-        k_2 &= F(t + \\tfrac{\\Delta t}{2}, y + \\tfrac{\\Delta t}{2} k_1) \\\\
-        k_3 &= F(t + \\tfrac{\\Delta t}{2}, y + \\tfrac{\\Delta t}{2} k_2) \\\\
-        k_4 &= F(t + \\Delta t, y + \\Delta t\\, k_3) \\\\
-        y^{n+1} &= y^{n} + \\tfrac{\\Delta t}{6}(k_1 + 2k_2 + 2k_3 + k_4)
+        k_1 &= F(t, y) \\
+        k_2 &= F(t + \tfrac{\Delta t}{2}, y + \tfrac{\Delta t}{2} k_1) \\
+        k_3 &= F(t + \tfrac{\Delta t}{2}, y + \tfrac{\Delta t}{2} k_2) \\
+        k_4 &= F(t + \Delta t, y + \Delta t\, k_3) \\
+        y^{n+1} &= y^{n} + \tfrac{\Delta t}{6}(k_1 + 2k_2 + 2k_3 + k_4)
 
     Parameters
     ----------

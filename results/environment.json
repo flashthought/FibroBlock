@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-08-11T20:53:47Z",
+  "generated_utc": "2026-08-11T21:01:01Z",
   "git_commit": "e3792d85f592d303fdf90c02719ee93e0805850a-dirty",
   "libraries": {
     "fibroblock": "1.0.0",
@@ -56,51 +56,6 @@
       "block_window_ms": 200.0
     },
     "seed": 20260810,
-    "label": "ex01_single_cell"
-  },
-  "arrays": {
-    "t_suprathreshold_ms": [
-      10001
-    ],
-    "V_suprathreshold": [
-      10001
-    ],
-    "w_suprathreshold": [
-      10001
-    ],
-    "t_subthreshold_ms": [
-      10001
-    ],
-    "V_subthreshold": [
-      10001
-    ],
-    "w_subthreshold": [
-      10001
-    ],
-    "sweep_amplitudes": [
-      60
-    ],
-    "sweep_peak_V": [
-      60
-    ]
-  },
-  "measurements": {
-    "V_rest": -1.1994080352440348,
-    "w_rest": -0.6242600440550435,
-    "jacobian_trace": -0.5025796350079559,
-    "jacobian_determinant": 0.10806909664050916,
-    "jacobian_discriminant": -0.17969009703730648,
-    "eigenvalue_real": -0.25128981750397794,
-    "eigenvalue_imag": 0.2119493436161732,
-    "classification": "stable spiral",
-    "is_excitable": true,
-    "bistable_root_V1": -1.199408035244036,
-    "bistable_root_V2": -0.7863209726808377,
-    "bistable_root_V3": 1.9857290079248737,
-    "cv_prefactor": 0.9630425785585018,
-    "stimulus_threshold": 0.6062811613082886,
-    "bisection_iterations": 22,
-    "peak_V_suprathreshold": 1.6983878231488991,
-    "peak_V_subthreshold": -0.5927454118083157
+    "label": "default"
   }
 }

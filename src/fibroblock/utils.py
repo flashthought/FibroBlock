@@ -28,6 +28,12 @@ import fibroblock
 # results/ no matter which directory an experiment is launched from.
 ROOT_MARKER = "pyproject.toml"
 
+# Directories holding GENERATED output. They are tracked in git (so the report
+# builds from a clean clone without running anything) but they are rewritten on
+# every pipeline run, so they are excluded from the "is the tree dirty?" check
+# in git_commit_hash. See that function's Notes for why this matters.
+GENERATED_PATHS: tuple[str, ...] = ("figures", "results", "report/figures")
+
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -196,13 +202,25 @@ def git_commit_hash() -> str:
     Returns
     -------
     str
-        Full 40-character hash, with ``"-dirty"`` appended if the working tree
-        has uncommitted changes; or ``"unavailable (not a git checkout)"``.
+        Full 40-character hash, with ``"-dirty"`` appended if the **source**
+        differs from that commit; or ``"unavailable (not a git checkout)"``.
 
     Notes
     -----
-    Never raises. A missing git installation or a downloaded ZIP rather than a
-    clone must not stop the pipeline -- it only makes the provenance less
+    The dirty check deliberately **excludes the generated directories** listed
+    in :data:`GENERATED_PATHS`. Those are exactly the files the pipeline exists
+    to rewrite: ``make_all_figures.py`` deletes ``figures/`` and ``results/``
+    as its first action, so a plain ``git status --porcelain`` reports a dirty
+    tree from that moment onwards and every figure would be stamped ``-dirty``
+    even when the source was committed and clean. The flag would then always be
+    set and would tell the reader nothing.
+
+    Excluding them makes the flag mean the thing worth knowing: *the code that
+    produced this output is not the code at this commit*, which is the only
+    condition under which the result would fail to reproduce.
+
+    Never raises. A missing git installation, or a downloaded ZIP rather than a
+    clone, must not stop the pipeline -- it only makes the provenance less
     precise, which is recorded honestly rather than hidden.
     """
     try:
@@ -217,7 +235,14 @@ def git_commit_hash() -> str:
         ).stdout.strip()
 
         status = subprocess.run(
-            ["git", "status", "--porcelain"],
+            [
+                "git",
+                "status",
+                "--porcelain",
+                "--",
+                ".",
+                *(f":(exclude){path}" for path in GENERATED_PATHS),
+            ],
             cwd=root,
             capture_output=True,
             text=True,

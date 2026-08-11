@@ -78,6 +78,21 @@ On Linux or macOS the only change is the activation line:
 source .venv/bin/activate
 ```
 
+> **Windows path-length warning.** Clone somewhere short, such as `C:\FibroBlock`
+> or `E:\FibroBlock`. Windows caps paths at 260 characters unless long-path
+> support is enabled, and a deeply nested clone pushes
+> `.venv\Lib\site-packages\PIL\_imaging...` past that limit. The symptom is
+> obscure and does not mention paths at all:
+>
+> ```
+> ImportError: DLL load failed while importing _imaging:
+> The filename or extension is too long.
+> ```
+>
+> This is the one environment problem encountered while testing these
+> instructions, and it is a Windows limit rather than anything to do with this
+> project.
+
 `make_all_figures.py` deletes and rebuilds `figures/`, `results/` and
 `report/figures/` from empty, runs all eight experiments in order, and prints a
 timing summary. **It takes roughly 6–10 minutes** (measured 6 m 15 s and

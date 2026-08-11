@@ -38,3 +38,15 @@ jupyter==1.1.1
 # --- Linting and formatting (development convenience, not required to run) --
 ruff==0.16.2
 black==26.5.1
+
+# --- The project itself ------------------------------------------------------
+# Installs FibroBlock in editable mode. This line is NOT optional: the package
+# uses a src/ layout, so without it "import fibroblock" fails and `pytest`
+# errors out during collection on a clean clone -- even though
+# scripts/make_all_figures.py would still work, because the experiment scripts
+# put src/ on sys.path themselves.
+#
+# Keeping it here is what makes the README's reproduction block correct as
+# written, rather than requiring a separate "pip install -e ." step that is
+# easy to leave out of the instructions and easy for an examiner to miss.
+-e .

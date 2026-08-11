@@ -29,10 +29,44 @@ from typing import Any
 
 import matplotlib
 
-# Force the non-interactive Agg backend BEFORE pyplot is imported. Experiments
-# run head-less from make_all_figures.py, and without this matplotlib may try
-# to open a GUI window (or fail outright on a machine with no display).
-matplotlib.use("Agg")
+
+def _in_interactive_shell() -> bool:
+    """Whether this module is being imported inside an IPython/Jupyter kernel.
+
+    Returns
+    -------
+    bool
+        True when an IPython shell is active (a Jupyter kernel, or an
+        ``ipython`` prompt), False in a plain Python process.
+
+    Notes
+    -----
+    ``IPython.get_ipython()`` returns None outside an IPython session and is the
+    documented way to make this distinction. IPython is only needed for the
+    notebooks, not for the pipeline, so the import is guarded.
+    """
+    try:
+        from IPython import get_ipython
+    except ImportError:
+        return False
+    return get_ipython() is not None
+
+
+# Choose a backend BEFORE pyplot is imported; matplotlib will not let it be
+# switched cleanly afterwards.
+#
+# Forcing Agg unconditionally was wrong. It is right for the pipeline, which
+# runs head-less from make_all_figures.py and must never try to open a GUI
+# window or fail on a machine with no display. But it also applied inside
+# Jupyter, overriding the inline backend the kernel had already configured, so
+# every plt.show() in notebooks/00_walkthrough.ipynb emitted
+#
+#     UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+#
+# and drew nothing. Agg is therefore forced only when there is no interactive
+# shell to render into; a Jupyter kernel keeps the backend it already has.
+if not _in_interactive_shell():
+    matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt  # noqa: E402  (must follow matplotlib.use)
 import numpy as np  # noqa: E402

@@ -295,6 +295,15 @@ def main(argv: list[str] | None = None) -> int:
     )
     print("  Wrote results/pipeline_run.json.")
 
+    # The environment record the report appendix cites. Written here rather
+    # than only by check_environment.py --save, because this script clears
+    # results/ at the start: a file written by a separate command would be
+    # deleted by the next pipeline run and the report's reference would dangle.
+    from fibroblock import config as cfg
+
+    utils.save_metadata("environment", utils.provenance(cfg.default_config().to_dict()))
+    print("  Wrote results/environment.json.")
+
     return 0 if all(stage.succeeded for stage in stages) else 1
 
 

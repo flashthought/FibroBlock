@@ -2,57 +2,57 @@
   "stages": [
     {
       "name": "ex01_single_cell",
-      "seconds": 4.590344499999901,
+      "seconds": 5.245618500001001,
       "figures": 1,
       "succeeded": true
     },
     {
       "name": "ex02_stability",
-      "seconds": 2.9686097999999674,
+      "seconds": 3.369809099998747,
       "figures": 1,
       "succeeded": true
     },
     {
       "name": "ex03_convergence",
-      "seconds": 44.65512629999989,
+      "seconds": 50.94043910000073,
       "figures": 1,
       "succeeded": true
     },
     {
       "name": "ex04_pure_diffusion",
-      "seconds": 2.139540800000077,
+      "seconds": 1.9972538000001805,
       "figures": 1,
       "succeeded": true
     },
     {
       "name": "ex05_cv_vs_D",
-      "seconds": 11.916025799999943,
+      "seconds": 14.181595100000777,
       "figures": 1,
       "succeeded": true
     },
     {
       "name": "ex06_block_threshold",
-      "seconds": 136.37930859999983,
+      "seconds": 128.24282649999986,
       "figures": 1,
       "succeeded": true
     },
     {
       "name": "ex07_conduction_delay",
-      "seconds": 146.9704681999999,
+      "seconds": 91.6036378000008,
       "figures": 1,
       "succeeded": true
     },
     {
       "name": "ex08_sensitivity",
-      "seconds": 113.97405879999997,
+      "seconds": 136.66259499999978,
       "figures": 1,
       "succeeded": true
     }
   ],
-  "total_seconds": 463.9533566,
+  "total_seconds": 432.6115305000003,
   "report_figure_files_copied": 16,
-  "generated_utc": "2026-08-11T10:30:33Z",
-  "git_commit": "e67ad5293860809d8d50018c8977bad271b3d3d7-dirty",
+  "generated_utc": "2026-08-11T13:01:25Z",
+  "git_commit": "b2278928a3eb2583a34fbb6863ac30606a0b1b0c-dirty",
   "libraries": {
     "fibroblock": "1.0.0",
     "python": "3.11.9",
